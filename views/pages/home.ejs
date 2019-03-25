@@ -1,0 +1,81 @@
+<% include ../partials/header %>
+<button onclick="document.getElementById('id01').style.display='block'" type="submit" class="login-button" style="width:auto;">Login</button>
+<div  style="background: #383838" class="jumbotron jumbotron-fluid">
+  <h2 style="color:#efefef; text-align:center;" class="display-4"><b>COOKI</b></h2>
+</div>
+
+<div id="id01" class="modal">
+  <form class="modal-content animate" action="/action_page.php">
+    <div class="container">
+      <label for="uname"><b>Username</b></label>
+      <input class="login-form" type="text" placeholder="Enter Username" name="uname" required>
+
+      <label for="psw"><b>Password</b></label>
+      <input class="login-form" type="password" placeholder="Enter Password" name="psw" required>
+
+      <button type="submit">Login</button>
+      <label>
+        <input class="login-form" type="checkbox" checked="checked" name="remember"> Remember me
+      </label>
+    </div>
+
+    <div class="container" style="background-color:#f1f1f1">
+      <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+      <span class="psw">Forgot <a href="#">password?</a></span>
+    </div>
+  </form>
+</div>
+
+<div class="search-box">
+  <input class="search-txt" type="text" name="" placeholder="Search recipe ...">
+  <a class="search-btn" href="#">
+      <i onclick="" class="fas fa-caret-down"></i>
+  </a>
+  <a class="search-btn" href="#">
+      <i class="fas fa-search"></i>
+  </a>
+</div>
+
+
+
+<br>
+<h2 style="color:#efefef; text-align:center;" class="display-4"><b>FEATURED RECIPES</b></h2>
+<br>
+
+<div class="row">
+  <div class="column">
+    <div class="card">
+      <img src="../resources/img/arrozglam.jpg" alt="Picture of Aurangzeb" style="width: 100%;">
+      <br>
+      <h3 style="color:#efefef;">Arroz</h3>
+    </div>
+  </div>
+
+  <div class="column">
+    <div class="card">
+      <img src="../resources/img/spegetti.jpg" alt="Picture of Aurangzeb" style="width: 100%;">
+      <br>
+      <h3 style="color:#efefef;">Spaggetti</h3>
+    </div>
+  </div>
+
+  <div class="column">
+    <div class="card">
+      <img src="../resources/img/arrozpollo.jpg" alt="Picture of Aurangzeb" style="width: 100%;">
+      <br>
+      <h3 style="color:#efefef;">Chicken and Rice</h3>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+// Get the modal
+var modal = document.getElementById('id01');
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+      modal.style.display = "none";
+  }
+}
+</script>
+<% include ../partials/footer %>
