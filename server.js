@@ -24,7 +24,7 @@ var pgp = require('pg-promise')();
 const dbConfig = {
 	host: 'localhost',
 	port: 5432,
-	database: 'Cooki',
+	database: 'Cook',
 	user: 'postgres',
 	password: 'Hello123'
 };
