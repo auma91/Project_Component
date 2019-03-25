@@ -100,5 +100,5 @@ app.get('/register', function(req, res) {
 /*Add your other get/post request handlers below here: */
 
 
-app.listen(3000);
+app.listen(80);
 console.log('3000 is the magic port');
