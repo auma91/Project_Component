@@ -35,7 +35,7 @@ var db = pgp(dbConfig);
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/'));//This line is necessary for us to use relative paths and access our resources directory
 
-
+var port = process.env.PORT || 8080;
 
 /*********************************
  Below we'll add the get & post requests which will handle:
@@ -100,5 +100,7 @@ app.get('/register', function(req, res) {
 /*Add your other get/post request handlers below here: */
 
 
-app.listen(80);
+app.listen(port, function() {
+    console.log('Our app is running on http://localhost:' + port);
+});
 console.log('3000 is the magic port');
