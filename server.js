@@ -12,6 +12,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 //Create Database Connection
 var pgp = require('pg-promise')();
+var loggedin = false;
 
 /**********************
   Database Connection information
@@ -22,11 +23,11 @@ var pgp = require('pg-promise')();
   password: This the password for accessing the database.  You'll need to set a password USING THE PSQL TERMINAL THIS IS NOT A PASSWORD FOR POSTGRES USER ACCOUNT IN LINUX!
 **********************/
 const dbConfig = {
-	host: 'localhost',
+	host: 'ec2-107-20-177-161.compute-1.amazonaws.com',
 	port: 5432,
-	database: 'Cooki',
-	user: 'postgres',
-	password: 'Hello123'
+	database: 'd22mr3m4netqs8',
+	user: 'xbhtcypzgcjpuk',
+	password: '75a929bd6e0d7df76ddfa48a2bf3e38a5f005b938ba74fe490b2f7bebcd2efde'
 };
 
 var db = pgp(dbConfig);
@@ -86,8 +87,37 @@ var port = process.env.PORT || 8080;
 app.get('/', function(req, res) {
 	res.render('pages/home',{
 		local_css:"homepage.css",
-		my_title:"HOME"
+    my_title: "HOME",
+    emailList: "",
+    loginname: "Login"
 	});
+});
+
+app.get('/home', function(req, res) {
+  var email = req.query.uname;
+  var psw = req.query.psw;
+  console.log(email+psw);
+  var emails = "SELECT * FROM users WHERE email= '"+email+"';";
+  db.task('get-info', task => {
+    return task.batch([
+      task.any(emails),
+    ]);
+  })
+  .then(info => {
+    if(info[0][0].password==psw) {
+      console.log("PASSWORD MATCHES!")
+    }
+    else {
+      console.log("PASSWORD DOESN'T MATCH!")
+    }
+    res.render('pages/home',{
+      local_css:"homepage.css",
+      my_title: "HOME",
+      emailList: info[0],
+      loginname: info[0][0].name
+    })
+
+  })
 });
 
 // registration page

@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS users(
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(30) NOT NULL,
+	email VARCHAR(50) NOT NULL,
+	password VARCHAR(50) NOT NULL,
+	dietaryFlags INT[],
+	favorites INT[]
+);
+INSERT INTO users(name, email, password)
+VALUES('Aurangzeb Malik', 'amalikrocks@gmail.com', 'Hello123');

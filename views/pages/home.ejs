@@ -1,19 +1,19 @@
 <% include ../partials/header %>
-<button onclick="document.getElementById('id01').style.display='block'" type="submit" class="login-button" style="width:auto;">Login</button>
+<button onclick="document.getElementById('id01').style.display='block'" type="submit" class="login-button" style="width:auto;"><%- loginname%></button>
 <div  style="background: #383838" class="jumbotron jumbotron-fluid">
   <h2 style="color:#efefef; text-align:center;" class="display-4"><b>COOKI</b></h2>
 </div>
 
 <div id="id01" class="modal">
-  <form class="modal-content animate" action="/action_page.php">
+  <form id="loginForm" action="/home" method="get" class="modal-content animate" >
     <div class="container">
-      <label for="uname"><b>Username</b></label>
-      <input class="login-form" type="text" placeholder="Enter Username" name="uname" required>
+      <label for="uname"><b>Email</b></label>
+      <input class="login-form" type="text" placeholder="Enter Email" name="uname" required>
 
       <label for="psw"><b>Password</b></label>
       <input class="login-form" type="password" placeholder="Enter Password" name="psw" required>
 
-      <button type="submit">Login</button>
+      <button onclick="document.getElementById("loginForm").submit();" type="submit">Login</button>
       <label>
         <input class="login-form" type="checkbox" checked="checked" name="remember"> Remember me
       </label>
