@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Form</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      body,html{
+       height: 100%;
+       width: 100%;
+       margin: 0;
+       padding: 0;
+       background: #383838 !important;
+      }
+
+      form{
+        padding: 10px;
+      }
+
+      label{
+        color:#efefef;
+        transition: 0.5s;
+        font-size: 13pt;
+        padding: 10px;
+        padding-left: 0px;
+      }
+
+      label:hover{
+        text-shadow: 13px 15px #afafaf;
+        transition: 0.5s;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div  style="background: #383838" class="jumbotron jumbotron-fluid">
+      <h2 style="color:#efefef; text-align:center;" class="display-4"><b>COOKI</b></h2>
+    </div>
+    <div style="width: 81%; margin-left : 9.5%; border-radius: 10px; background-color: #383838;">
+      <form style="width: 98%; margin-left : 1%;">
+        <div class="form-group">
+          <br>
+          <label>Name</label>
+          <input style="margin:center;" class="form-control" type="text" placeholder="Enter Name">
+          <br>
+          <label>Email address</label>
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+          <br>
+          <label>Password</label>
+          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+          <br>
+
+          <label>Dietary Restrictions</label>
+          <br>
+          <label class="checkbox-inline">
+            <input type="checkbox" value="">Kosher
+          </label>
+          <label class="checkbox-inline">
+            <input type="checkbox" value="">HALAL
+          </label>
+          <label class="checkbox-inline">
+            <input type="checkbox" value="">Vegan
+          </label>
+          <label class="checkbox-inline">
+            <input type="checkbox" value="">Vegetarian
+          </label>
+          <label class="checkbox-inline">
+            <input type="checkbox" value="">Pescatarian
+          </label>
+          <label class="checkbox-inline">
+            <input type="checkbox" value="">KETO
+          </label>
+          <label class="checkbox-inline">
+            <input type="checkbox" value="">Low fat
+          </label>
+          <br></br>
+
+        </div>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+          submit
+        </button>
+        <br>
+      </form>
+    </div>
+  </body>
+
+</html>
