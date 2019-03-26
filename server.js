@@ -27,8 +27,11 @@ const dbConfig = {
 	port: 5432,
 	database: 'd22mr3m4netqs8',
 	user: 'xbhtcypzgcjpuk',
-	password: '75a929bd6e0d7df76ddfa48a2bf3e38a5f005b938ba74fe490b2f7bebcd2efde'
+	password: '75a929bd6e0d7df76ddfa48a2bf3e38a5f005b938ba74fe490b2f7bebcd2efde',
+  ssl: true
 };
+
+//const dbConfig = pgp('postgres://xbhtcypzgcjpuk:75a929bd6e0d7df76ddfa48a2bf3e38a5f005b938ba74fe490b2f7bebcd2efde@ec2-107-20-177-161.compute-1.amazonaws.com:5432/d22mr3m4netqs8');
 
 var db = pgp(dbConfig);
 
