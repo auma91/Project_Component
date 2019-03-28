@@ -125,8 +125,9 @@ app.get('/home', function(req, res) {
 
 // registration page
 app.get('/register', function(req, res) {
-	res.render('pages/register',{
-		my_title:"Registration Page"
+	res.render('pages/reg',{
+		my_title:"Registration Page",
+    local_css: "reg.css"
 	});
 });
 

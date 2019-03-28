@@ -1,0 +1,34 @@
+body,html{
+ height: 100%;
+ width: 100%;
+ margin: 0;
+ padding: 0;
+ background: #383838 !important;
+}
+
+form{
+  padding: 10px;
+}
+
+label{
+  color:#efefef;
+  transition: 0.5s;
+  font-size: 13pt;
+  padding: 10px;
+  padding-left: 0px;
+}
+
+label:hover{
+
+  font-size: 15pt;
+  transition: 0.5s;
+}
+a{
+  transition: 0.5s;
+}
+
+a:hover{
+
+  font-size: 35pt;
+  transition: 0.5s;
+}
