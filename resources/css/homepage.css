@@ -192,3 +192,12 @@ span.psw {
      width: 100%;
   }
 }
+a.title{
+  transition: 0.5s;
+}
+
+a.title:hover{
+
+  font-size: 35pt;
+  transition: 0.5s;
+}

@@ -109,16 +109,24 @@ app.get('/home', function(req, res) {
   .then(info => {
     if(info[0][0].password==psw) {
       console.log("PASSWORD MATCHES!")
+      loggedin = true;
+      res.render('pages/home',{
+        local_css:"homepage.css",
+        my_title: "HOME",
+        emailList: info[0],
+        loginname: info[0][0].name
+      })
     }
     else {
       console.log("PASSWORD DOESN'T MATCH!")
+      res.render('pages/home',{
+    		local_css:"homepage.css",
+        my_title: "HOME",
+        emailList: "",
+        loginname: "Login"
+    	});
     }
-    res.render('pages/home',{
-      local_css:"homepage.css",
-      my_title: "HOME",
-      emailList: info[0],
-      loginname: info[0][0].name
-    })
+
 
   })
 });
