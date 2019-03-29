@@ -115,7 +115,7 @@ app.get('/home', function(req, res) {
         my_title: "HOME",
         emailList: info[0],
         loginname: info[0][0].name
-      })
+      });
     }
     else {
       console.log("PASSWORD DOESN'T MATCH!")
@@ -133,10 +133,31 @@ app.get('/home', function(req, res) {
 
 // registration page
 app.get('/register', function(req, res) {
-	res.render('pages/reg',{
-		my_title:"Registration Page",
-    local_css: "reg.css"
-	});
+  res.render('pages/reg', {
+    local_css:"reg.css",
+    my_title: "Registration"
+  });
+});
+
+app.post('/register', function(req, res) {
+  var name = req.body.name;
+  var email = req.body.email;
+  var pass = req.body.psw;
+  console.log(name);
+  var insert_statement = "INSERT INTO users(name, email, password) VALUES('" + name + "','" +
+              email + "','" + pass +"');";
+  console.log(insert_statement);
+  db.task('get-everything', task => {
+        return task.batch([
+            task.any(insert_statement)
+        ]);
+    })
+    .then(info => {
+      res.render('pages/reg', {
+        local_css:"reg.css",
+        my_title: "Registration"
+      });
+    })
 });
 
 /*Add your other get/post request handlers below here: */
@@ -145,4 +166,4 @@ app.get('/register', function(req, res) {
 app.listen(port, function() {
     console.log('Our app is running on http://localhost:' + port);
 });
-console.log('3000 is the magic port');
+console.log('8080 is the magic port');

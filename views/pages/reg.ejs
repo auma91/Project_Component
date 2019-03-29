@@ -3,17 +3,17 @@
   <h2 style="text-align:center;"><a href="/" style="color:#efefef; text-decoration: none;" class="display-4"><b>COOKI</b></a><h2>
 </div>
 <div style="width: 81%; margin-left : 9.5%; border-radius: 10px; background-color: #383838;">
-  <form style="width: 98%; margin-left : 1%;">
+  <form id="registerForm" action="/register" method="post" style="width: 98%; margin-left : 1%;">
     <div class="form-group">
       <br>
-      <label>Name</label>
-      <input style="margin:center;" class="form-control" type="text" placeholder="Enter Name">
+      <label for="name">Name</label>
+      <input style="margin:center;" class="form-control" type="text" placeholder="Enter Name" name="name" required>
       <br>
-      <label>Email address</label>
-      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+      <label for="email">Email address</label>
+      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" name="email" required>
       <br>
-      <label>Password</label>
-      <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+      <label for="psw">Password</label>
+      <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="psw" required>
       <br>
 
       <label>Dietary Restrictions</label>
@@ -42,7 +42,7 @@
       <br></br>
 
     </div>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+    <button onclick="document.getElementById("registerForm").submit();" type="submit" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
       submit
     </button>
     <br>
