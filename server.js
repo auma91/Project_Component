@@ -7,9 +7,17 @@
 var express = require('express'); //Ensure our express framework has been added
 var app = express();
 var bodyParser = require('body-parser'); //Ensure our body-parser tool has been added
-var passport = require(“passport”);
+var passport = require(“passport”); //login system
+var session = require(“express-session”); //expressSession
+var flash = require(‘connect-flash’); //will allow for alerts
 app.use(bodyParser.json());              // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+const expressSession = require(‘express-session’);
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(expressSession({secret: ‘mySecretKey’}));
+app.use(flash());
+
 
 //Create Database Connection
 var pgp = require('pg-promise')();
