@@ -7,18 +7,17 @@
 var express = require('express'); //Ensure our express framework has been added
 var app = express();
 var bodyParser = require('body-parser'); //Ensure our body-parser tool has been added
-var passport = require("passport"); //login system
-var session = require("express-session"); //expressSession
-var flash = require('connect-flash'); //will allow for alerts
-const bcrypt = require('bcrypt')
+var passport = require(“passport”); //login system
+var session = require(“express-session”); //expressSession
+var flash = require(‘connect-flash’); //will allow for alerts
 app.use(bodyParser.json());              // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
-const expressSession = require('express-session');
+const expressSession = require(‘express-session’);
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(expressSession({secret: 'mySecretKey'}));
+app.use(expressSession({secret: ‘mySecretKey’}));
 app.use(flash());
-//require('./lib/routes.js')(app); //include routes file
+
 
 //Create Database Connection
 var pgp = require('pg-promise')();
@@ -97,21 +96,12 @@ var port = process.env.PORT || 8080;
 ************************************/
 
 // login page
-app.get('/', async function(req, res) {
+app.get('/', function(req, res) {
 	res.render('pages/home',{
 		local_css:"homepage.css",
     my_title: "HOME",
     emailList: "",
     loginname: "Login"
-	});
-	var pass = await bcrypt.hash('Hello123', 5);
-	console.log(pass);
-	bcrypt.compare('Hello12', pass, function(err, res) {
-	  if(res) {
-			console.log("PASSWORD MATCHES");
-	  } else {
-			console.log("PASSWORD DOESN'T MATCH");
-	  }
 	});
 });
 
@@ -145,6 +135,8 @@ app.get('/home', function(req, res) {
         loginname: "Login"
     	});
     }
+
+
   })
 });
 
@@ -156,37 +148,24 @@ app.get('/register', function(req, res) {
   });
 });
 
-app.post('/register', async function(req, res) {
+app.post('/register', function(req, res) {
   var name = req.body.name;
   var email = req.body.email;
-  var pass = await bcrypt.hash(req.body.psw, 5);
+  var pass = req.body.psw;
   console.log(name);
-	var emails_check = "SELECT COUNT(*) FROM users WHERE email= '"+email+"';";
   var insert_statement = "INSERT INTO users(name, email, password) VALUES('" + name + "','" +
               email + "','" + pass +"');";
-  console.log(emails_check+"\n"+insert_statement);
+  console.log(insert_statement);
   db.task('get-everything', task => {
         return task.batch([
-            task.any(emails_check)
+            task.any(insert_statement)
         ]);
     })
     .then(info => {
-			if(info[0][0].count!=0) {
-				console.log("User account already exist");
-			}
-			else {
-				db.task('get-everything', task => {
-					return task.batch([
-						task.any(insert_statement)
-					]);
-					console.log("User account created.");
-				})
-			}
-			res.redirect('/');
-      /*res.render('pages/reg', {
+      res.render('pages/reg', {
         local_css:"reg.css",
         my_title: "Registration"
-      });*/
+      });
     })
 });
 
@@ -197,6 +176,3 @@ app.listen(port, function() {
     console.log('Our app is running on http://localhost:' + port);
 });
 console.log('8080 is the magic port');
-
-
-//console.log(bcrypt.hash('Hello123', 5));
