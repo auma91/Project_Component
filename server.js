@@ -106,7 +106,7 @@ app.get('/', async function(req, res) {
 	});
 	var pass = await bcrypt.hash('Hello123', 5);
 	console.log(pass);
-	bcrypt.compare('Hello12', pass, function(err, res) {
+	bcrypt.compare('Hello123', pass, function(err, res) {
 	  if(res) {
 			console.log("PASSWORD MATCHES");
 	  } else {
