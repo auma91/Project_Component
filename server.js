@@ -52,48 +52,7 @@ app.use(express.static(__dirname + '/'));//This line is necessary for us to use 
 var port = process.env.PORT || 8080;
 
 /*********************************
- Below we'll add the get & post requests which will handle:
-   - Database access
-   - Parse parameters from get (URL) and post (data package)
-   - Render Views - This will decide where the user will go after the get/post request has been processed
- Web Page Requests:
-  Login Page:        Provided For your (can ignore this page)
-  Registration Page: Provided For your (can ignore this page)
-  Home Page:
-  		/home - get request (no parameters)
-  				This route will make a single query to the favorite_colors table to retrieve all of the rows of colors
-  				This data will be passed to the home view (pages/home)
-  		/home/pick_color - post request (color_message)
-  				This route will be used for reading in a post request from the user which provides the color message for the default color.
-  				We'll be "hard-coding" this to only work with the Default Color Button, which will pass in a color of #FFFFFF (white).
-  				The parameter, color_message, will tell us what message to display for our default color selection.
-  				This route will then render the home page's view (pages/home)
-  		/home/pick_color - get request (color)
-  				This route will read in a get request which provides the color (in hex) that the user has selected from the home page.
-  				Next, it will need to handle multiple postgres queries which will:
-  					1. Retrieve all of the color options from the favorite_colors table (same as /home)
-  					2. Retrieve the specific color message for the chosen color
-  				The results for these combined queries will then be passed to the home view (pages/home)
-  		/team_stats - get request (no parameters)
-  			This route will require no parameters.  It will require 3 postgres queries which will:
-  				1. Retrieve all of the football games in the Fall 2018 Season
-  				2. Count the number of winning games in the Fall 2018 Season
-  				3. Count the number of lossing games in the Fall 2018 Season
-  			The three query results will then be passed onto the team_stats view (pages/team_stats).
-  			The team_stats view will display all fo the football games for the season, show who won each game,
-  			and show the total number of wins/losses for the season.
-  		/player_info - get request (no parameters)
-        This route will handle a single query to the football_players table which will retrieve the id & name for all of the football players.
-        Next it will pass this result to the player_info view (pages/player_info), which will use the ids & names to populate the select tag for a form
-
-      /player_info/select_player - get request (player_id)
-        This route will handle three queries and a work with a single parameter.
-      Parameter:
-        player_id - this will be a single number that refers to the football player's id.
-        Queries:
-          1. Retrieve the user id's & names of the football players (just like in /player_info)
-          2. Retrieve the specific football player's informatioin from the football_players table
-          3. Retrieve the total number of football games the player has played in
+ *
 ************************************/
 
 // login page
@@ -113,6 +72,120 @@ app.get('/', async function(req, res) {
 			console.log("PASSWORD DOESN'T MATCH");
 	  }
 	});
+});
+
+app.get('/', afunction (req, res, next) {
+  if (req.isAuthenticated()) {
+    res.redirect('/account');
+  }
+  else{
+    res.render('pages/home',{
+  		local_css:"homepage.css",
+      my_title: "HOME",
+      emailList: "",
+      loginname: "Login"
+  	});
+  }
+});
+
+app.post(‘/login’, passport.authenticate(‘local’, {
+  successRedirect: ‘/account’,
+  failureRedirect: ‘/login’,
+  failureFlash: true
+  }), function(req, res) {
+    if (req.body.remember) {
+      req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000; // Cookie expires after 30 days
+    } else {
+      req.session.cookie.expires = false; // Cookie expires at end of session
+    }
+    res.redirect(‘/’);
+  }
+);
+
+app.get('/logout', function(req, res){
+  console.log(req.isAuthenticated());
+  req.logout();
+  console.log(req.isAuthenticated());
+  //req.flash(‘success’, “Logged out. See you soon!”);
+  res.redirect(‘/’);
+ });
+
+passport.use(‘local’, new LocalStrategy({passReqToCallback : true}, (req, username, password, done) => {
+  loginAttempt();
+  async function loginAttempt() {
+    const client = await pool.connect()
+    try{
+      await client.query(‘BEGIN’)
+      db.any('SELECT * FROM users WHERE active = $1', [true])
+      .then(function(data) {
+        bcrypt.compare(password, data[0].password, function(err, check) {
+          if (err){
+            console.log(‘Error while checking password’);
+            return done();
+          }
+          else if (check){
+            return done(null, [{email: data[0].email, firstName: result.rows[0].firstName}]);
+          }
+          else{
+            //req.flash(‘danger’, “Oops. Incorrect login details.”);
+            return done(null, false);
+          }
+        });
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
+      var currentAccountsData = await JSON.stringify(client.query(‘SELECT id, “firstName”, “email”, “password” FROM “users” WHERE “email”=$1’, [username], function(err, result) {
+        if(err) {
+          return done(err)
+        }
+        if(result.rows[0] == null){
+          req.flash(‘danger’, “Oops. Incorrect login details.”);
+          return done(null, false);
+        }
+        else{
+          bcrypt.compare(password, result.rows[0].password, function(err, check) {
+            if (err){
+              console.log(‘Error while checking password’);
+              return done();
+            }
+            else if (check){
+              return done(null, [{email: result.rows[0].email, firstName: result.rows[0].firstName}]);
+            }
+            else{
+              req.flash(‘danger’, “Oops. Incorrect login details.”);
+              return done(null, false);
+            }
+          });
+        }
+      }))
+    }
+    catch(e){throw (e);}
+  };
+}))
+
+passport.serializeUser(function(user, done) {
+ done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+ done(null, user);
+});
+
+//if loggedin
+app.get(‘/account’, function (req, res, next) {
+  if(req.isAuthenticated()){
+    res.render('pages/home',{
+  		local_css:"homepage.css",
+      my_title: "HOME",
+      emailList: "",
+      loginname: "Login"
+  	});
+  }
+  else{
+    res.redirect(‘/login’);
+  }
 });
 
 app.get('/home', function(req, res) {
