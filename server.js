@@ -74,7 +74,7 @@ app.get('/', async function(req, res) {
 	});
 });
 
-app.get('/', afunction (req, res, next) {
+app.get('/', function (req, res, next) {
   if (req.isAuthenticated()) {
     res.redirect('/account');
   }
@@ -98,7 +98,7 @@ app.post(‘/login’, passport.authenticate(‘local’, {
     } else {
       req.session.cookie.expires = false; // Cookie expires at end of session
     }
-    res.redirect(‘/’);
+    res.redirect('/');
   }
 );
 
@@ -110,7 +110,7 @@ app.get('/logout', function(req, res){
   res.redirect(‘/’);
  });
 
-passport.use(‘local’, new LocalStrategy({passReqToCallback : true}, (req, username, password, done) => {
+passport.use('local', new LocalStrategy({passReqToCallback : true}, (req, username, password, done) => {
   loginAttempt();
   async function loginAttempt() {
     const client = await pool.connect()
@@ -124,7 +124,7 @@ passport.use(‘local’, new LocalStrategy({passReqToCallback : true}, (req, us
             return done();
           }
           else if (check){
-            return done(null, [{email: data[0].email, firstName: result.rows[0].firstName}]);
+            return done(null, [{email: data[0].email, firstName: data.rows[0].name}]);
           }
           else{
             //req.flash(‘danger’, “Oops. Incorrect login details.”);
@@ -135,35 +135,9 @@ passport.use(‘local’, new LocalStrategy({passReqToCallback : true}, (req, us
       .catch(function(error) {
         console.log(error);
       });
-
-      var currentAccountsData = await JSON.stringify(client.query(‘SELECT id, “firstName”, “email”, “password” FROM “users” WHERE “email”=$1’, [username], function(err, result) {
-        if(err) {
-          return done(err)
-        }
-        if(result.rows[0] == null){
-          req.flash(‘danger’, “Oops. Incorrect login details.”);
-          return done(null, false);
-        }
-        else{
-          bcrypt.compare(password, result.rows[0].password, function(err, check) {
-            if (err){
-              console.log(‘Error while checking password’);
-              return done();
-            }
-            else if (check){
-              return done(null, [{email: result.rows[0].email, firstName: result.rows[0].firstName}]);
-            }
-            else{
-              req.flash(‘danger’, “Oops. Incorrect login details.”);
-              return done(null, false);
-            }
-          });
-        }
-      }))
     }
     catch(e){throw (e);}
-  };
-}))
+}}))
 
 passport.serializeUser(function(user, done) {
  done(null, user);
