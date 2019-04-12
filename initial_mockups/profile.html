@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.8.1/js/all.js" integrity="sha384-g5uSoOSBd7KkhAMlnQILrecXvzst9TdC09/VM+pjDTCM+1il8RHz5fKANTFFb+gQ" crossorigin="anonymous"></script>
+  </head>
+  <style media="screen">
+    body,html{
+     height: 100%;
+     width: 100%;
+     margin: 0;
+     padding: 0;
+     background: #383838 !important;
+    }
+
+    .search-box{
+      position: absolute;
+      top: 17.5%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      background: #4f4f4f;
+      height: 60px;
+      border-radius: 40px;
+      padding: 10px;
+    }
+
+    .search-btn {
+      color: #efefef;
+      float: right;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #4f4f4f;
+      display: flex;
+      justify-content:center;
+      align-items:center;
+      transition: 0.6s;
+    }
+
+    .search-box:hover > .search-txt {
+      width: 620px;
+      padding: 0 6px;
+    }
+
+    .search-box:hover > .search-btn {
+      background: #efefef;
+      color: #4f4f4f;
+    }
+
+    .search-txt{
+      border: none;
+      background: none;
+      outline: none;
+      float: left;
+      padding: 0;
+      color: #efefef;
+      font-size: 16px;
+      transition: 0.6s;
+      line-height: 40px;
+      width: 0px;
+    }
+
+    a.title{
+      transition: 0.5s;
+    }
+
+    a.title:hover{
+
+      font-size: 35pt;
+      transition: 0.5s;
+    }
+
+  </style>
+  <body>
+    <div  style="background: #383838" class="jumbotron jumbotron-fluid">
+      <h2 style="text-align:center;"><a class="title" href="/" style="color:#efefef; text-decoration: none;" class="display-4"><b>COOKI</b></a><h2>
+    </div>
+
+
+    <div class="search-box">
+      <input class="search-txt" type="text" name="" placeholder="Search recipe ...">
+      <a class="search-btn" href="#">
+          <i class="fas fa-search"></i>
+      </a>
+    </div>
+
+    <br>
+
+    <div  style="background: #383838" class="jumbotron jumbotron-fluid">
+      <h2 style="text-align:center;"><a class="title" href="#" style="color:#efefef; text-decoration: none;" class="display-4"><b>Information</b></a><h2>
+    </div>
+
+    <br>
+
+    <div  style="background: #383838" class="jumbotron jumbotron-fluid">
+      <h2 style="text-align:center;"><a class="title" href="#" style="color:#efefef; text-decoration: none;" class="display-4"><b>Saved Recipes</b></a><h2>
+    </div>
+
+    <br>
+
+    <div  style="background: #383838" class="jumbotron jumbotron-fluid">
+      <h2 style="text-align:center;"><a class="title" href="#" style="color:#efefef; text-decoration: none;" class="display-4"><b>Reviews</b></a><h2>
+    </div>
+
+  </body>
+  <script>
+  // Get the modal
+  var modal = document.getElementById('id01');
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+      if (event.target == modal) {
+          modal.style.display = "none";
+      }
+  }
+  </script>
+</html>

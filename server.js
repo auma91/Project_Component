@@ -14,6 +14,7 @@ const bcrypt = require('bcrypt')
 app.use(bodyParser.json());              // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 const expressSession = require('express-session');
+const LocalStrategy = require('passport-local').Strategy;
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(expressSession({secret: 'mySecretKey'}));
@@ -58,6 +59,8 @@ var port = process.env.PORT || 8080;
 // login page
 app.get('/', async function(req, res) {
 	res.render('pages/home',{
+    success_msg: req.flash('success_msg'),
+    error_msg: req.flash('error_msg'),
 		local_css:"homepage.css",
     my_title: "HOME",
     emailList: "",
@@ -74,27 +77,73 @@ app.get('/', async function(req, res) {
 	});
 });
 
-app.get('/', function (req, res, next) {
-  if (req.isAuthenticated()) {
-    res.redirect('/account');
+passport.use('local', new LocalStrategy({passReqToCallback : true}, (req, username, password, done) => {
+  loginAttempt();
+  async function loginAttempt() {
+    //const client = await pool.connect()
+    try{
+      //await client.query(‘BEGIN’)
+      db.any("SELECT * FROM users WHERE email = '" + username + "';")
+      .then(function(data) {
+        //console.log(data);
+        //console.log(data[0]);
+        bcrypt.compare(password, data[0].password, function(err, check) {
+          if (err){
+            console.log('Error while checking password');
+            return done();
+          }
+          else if (check){
+            req.flash('success_msg','Succesfully logged in')
+            return done(null, [{email: data[0].email, firstName: data[0].name}]);
+          }
+          else{
+            req.flash('error_msg', 'Oops. Incorrect login details.');
+            return done(null, false);
+          }
+        });
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+    }
+    catch(e){throw (e);}
+    console.log(req.email);
   }
-  else{
-    res.render('pages/home',{
-  		local_css:"homepage.css",
-      my_title: "HOME",
-      emailList: "",
-      loginname: "Login"
-  	});
-  }
+}))
+
+passport.serializeUser(function(user, done) {
+ done(null, user);
 });
 
-app.post(‘/login’, passport.authenticate(‘local’, {
-  successRedirect: ‘/account’,
-  failureRedirect: ‘/login’,
+passport.deserializeUser(function(user, done) {
+ done(null, user);
+});
+
+app.get('/login', function (req, res, next) {
+   if (req.isAuthenticated()) {
+
+     res.redirect('/account');
+   }
+   else{
+     res.render('pages/home',{
+       success_msg: req.flash('success_msg'),
+       error_msg: '',
+       local_css:"homepage.css",
+       my_title: "HOME",
+       emailList: "",
+       loginname: "Login"
+     });
+   }
+ });
+
+app.post('/login', passport.authenticate('local', {
+  successRedirect: '/',
+  failureRedirect: '/login',
   failureFlash: true
   }), function(req, res) {
+    //console.log(req.user);
     if (req.body.remember) {
-      req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000; // Cookie expires after 30 days
+      req.session.cookie.maxAge = 10 * 24 * 60 * 60 * 1000; // Cookie expires after 10 days
     } else {
       req.session.cookie.expires = false; // Cookie expires at end of session
     }
@@ -107,134 +156,101 @@ app.get('/logout', function(req, res){
   req.logout();
   console.log(req.isAuthenticated());
   //req.flash(‘success’, “Logged out. See you soon!”);
-  res.redirect(‘/’);
+  res.redirect('/');
  });
 
-passport.use('local', new LocalStrategy({passReqToCallback : true}, (req, username, password, done) => {
-  loginAttempt();
-  async function loginAttempt() {
-    const client = await pool.connect()
-    try{
-      await client.query(‘BEGIN’)
-      db.any('SELECT * FROM users WHERE active = $1', [true])
-      .then(function(data) {
-        bcrypt.compare(password, data[0].password, function(err, check) {
-          if (err){
-            console.log(‘Error while checking password’);
-            return done();
-          }
-          else if (check){
-            return done(null, [{email: data[0].email, firstName: data.rows[0].name}]);
-          }
-          else{
-            //req.flash(‘danger’, “Oops. Incorrect login details.”);
-            return done(null, false);
-          }
-        });
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-    }
-    catch(e){throw (e);}
-}}))
 
-passport.serializeUser(function(user, done) {
- done(null, user);
-});
 
-passport.deserializeUser(function(user, done) {
- done(null, user);
-});
-
-//if loggedin
-app.get(‘/account’, function (req, res, next) {
-  if(req.isAuthenticated()){
-    res.render('pages/home',{
-  		local_css:"homepage.css",
-      my_title: "HOME",
-      emailList: "",
-      loginname: "Login"
-  	});
-  }
-  else{
-    res.redirect(‘/login’);
-  }
-});
-
-app.get('/home', function(req, res) {
-  var email = req.query.uname;
-  var psw = req.query.psw;
-  console.log(email+psw);
-  var emails = "SELECT * FROM users WHERE email= '"+email+"';";
-  db.task('get-info', task => {
-    return task.batch([
-      task.any(emails),
-    ]);
-  })
-  .then(info => {
-    if(info[0][0].password==psw) {
-      console.log("PASSWORD MATCHES!")
-      loggedin = true;
-      res.render('pages/home',{
-        local_css:"homepage.css",
-        my_title: "HOME",
-        emailList: info[0],
-        loginname: info[0][0].name
-      });
-    }
-    else {
-      console.log("PASSWORD DOESN'T MATCH!")
-      res.render('pages/home',{
-    		local_css:"homepage.css",
-        my_title: "HOME",
-        emailList: "",
-        loginname: "Login"
-    	});
-    }
-  })
-});
 
 // registration page
 app.get('/register', function(req, res) {
+  //let errors = [];
   res.render('pages/reg', {
     local_css:"reg.css",
-    my_title: "Registration"
+    my_title: "Registration",
+    success_msg: "",
+    error_msg: "",
+    name: "",
+    email: "",
+    psw: "",
+    psw2: ""
   });
 });
 
-app.post('/register', async function(req, res) {
-  var name = req.body.name;
-  var email = req.body.email;
-  var pass = await bcrypt.hash(req.body.psw, 5);
-  console.log(name);
-	var emails_check = "SELECT COUNT(*) FROM users WHERE email= '"+email+"';";
-  var insert_statement = "INSERT INTO users(name, email, password) VALUES('" + name + "','" +
-              email + "','" + pass +"');";
-  console.log(emails_check+"\n"+insert_statement);
-  db.task('get-everything', task => {
-        return task.batch([
-            task.any(emails_check)
-        ]);
+app.post('/register', (req, res) => {
+  const { name, email, password, password2 } = req.body;
+  var errors = '';
+  console.log(name+email+password);
+
+  if (!name || !email || !password || !password) {
+    errors += 'Please enter all fields' +'\n';
+  }
+
+  if (password != password2) {
+    errors += 'Passwords do not match' +'\n';
+  }
+
+  if (password.length < 6) {
+    errors += 'Password must be at least 6 characters' +'\n';
+  }
+
+  if (errors != '') {
+    res.render('pages/reg', {
+      local_css:"reg.css", my_title: "Registration",
+      error_msg: errors,
+      success_msg: "",
+      name,
+      email,
+      password,
+      password2
+    });
+  }
+  else {
+    db.any("SELECT COUNT(*) FROM users WHERE email = '" + email + "';")
+    .then(data =>{
+      console.log(data[0].count);
+      if(data[0].count != 0) {
+        res.render('pages/reg', {
+          local_css:"reg.css",
+          my_title: "Registration",
+          error_msg: "Email is already registered",
+          success_msg: "",
+          name,
+          email,
+          password,
+          password2
+        });
+      }
+      else {
+        const user = {
+          email: req.body.email,
+          password: req.body.password
+        }
+        bcrypt.genSalt(5, (err, salt) => {
+          bcrypt.hash(password, salt, (err, hash) => {
+            if (err) throw err;
+            var pass = hash;
+            db.none("INSERT INTO users(name, email, password) VALUES('" + name + "', '" + email + "', '" + pass + "');")
+            .then(() => {
+              // success;
+              req.flash(
+                'success_msg',
+                'You are now registered and can log in'
+              )
+              res.redirect('/login');
+            })
+            .catch(error => {
+              // error;
+              console.log(err)
+            });
+          });
+        });
+      }
     })
-    .then(info => {
-			if(info[0][0].count!=0) {
-				console.log("User account already exist");
-			}
-			else {
-				db.task('get-everything', task => {
-					return task.batch([
-						task.any(insert_statement)
-					]);
-					console.log("User account created.");
-				})
-			}
-			res.redirect('/');
-      /*res.render('pages/reg', {
-        local_css:"reg.css",
-        my_title: "Registration"
-      });*/
+    .catch (fail => {
+      console.log(fail);
     })
+  }
 });
 
 /*Add your other get/post request handlers below here: */

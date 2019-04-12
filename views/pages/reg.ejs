@@ -3,17 +3,21 @@
   <h2 style="text-align:center;"><a href="/" style="color:#efefef; text-decoration: none;" class="display-4"><b>COOKI</b></a><h2>
 </div>
 <div style="width: 81%; margin-left : 9.5%; border-radius: 10px; background-color: #383838;">
-  <form id="registerForm" action="/register" method="post" style="width: 98%; margin-left : 1%;">
+  <% include ../partials/messages %>
+  <form id="registerForm" action="../../register" method="POST" style="width: 98%; margin-left : 1%;">
     <div class="form-group">
       <br>
       <label for="name">Name</label>
-      <input style="margin:center;" class="form-control" type="text" placeholder="Enter Name" name="name" required>
+      <input style="margin:center;" class="form-control" type="text" placeholder="Enter Name" name="name" required value="<%= typeof name != 'undefined' ? name : '' %>"/>
       <br>
       <label for="email">Email address</label>
-      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" name="email" required>
+      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" name="email" required value="<%= typeof email != 'undefined' ? email : '' %>"/>
       <br>
       <label for="psw">Password</label>
-      <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="psw" required>
+      <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="password" required value="<%= typeof password != 'undefined' ? password : '' %>"/>
+      <br>
+      <label for="psw">Confirm Password</label>
+      <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="password2" required value="<%= typeof password2 != 'undefined' ? password2 : '' %>"/>
       <br>
 
       <label>Dietary Restrictions</label>

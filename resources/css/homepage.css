@@ -86,7 +86,7 @@ body,html{
 }
 
 /* Full-width input fields */
-.login-form[type=text], .login-form[type=password] {
+.login-form[type=email], .login-form[type=password] {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
