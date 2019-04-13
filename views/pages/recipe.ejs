@@ -1,0 +1,109 @@
+<% include ../partials/header %>
+<button onclick="document.getElementById('id01').style.display='block'" type="submit" class="login-button" style="width:auto;"><%- loginname%></button>
+<div  style="background: #383838" class="jumbotron jumbotron-fluid">
+  <h2 style="text-align:center;"><a class="title" href="/" style="color:#efefef; text-decoration: none;" class="display-4"><b>COOKI</b></a><h2>
+</div>
+<div id="id01" class="modal">
+  <form id="loginForm" action="/home" method="get" class="modal-content animate" >
+    <div class="container">
+      <label for="uname"><b>Email</b></label>
+      <input class="login-form" type="text" placeholder="Enter Email" name="uname" required>
+
+      <label for="psw"><b>Password</b></label>
+      <input class="login-form" type="password" placeholder="Enter Password" name="psw" required>
+
+      <button onclick="document.getElementById("loginForm").submit();" type="submit">Login</button>
+      <label>
+        <input class="login-form" type="checkbox" checked="checked" name="remember"> Remember me
+      </label>
+    </div>
+
+    <div class="container" style="background-color:#efefef">
+      <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+      <span class="psw" style="float: initial;">Need to <a href="/register">register?</a></span>
+      <span class="psw">Forgot <a href="#">password?</a></span>
+    </div>
+  </form>
+</div>
+
+<div class="search-box">
+  <input class="search-txt" type="text" name="" placeholder="Search recipe ...">
+  <a class="search-btn" href="#">
+      <i onclick="" class="fas fa-caret-down"></i>
+  </a>
+  <a class="search-btn" href="#">
+      <i class="fas fa-search"></i>
+  </a>
+</div>
+
+<div  style="background: #383838" class="jumbotron jumbotron-fluid">
+  <h2 style="text-align:center;"><a class="title" href="#" style="color:#efefef; text-decoration: none;" class="display-4"><b>FEATURED RECIPES</b></a><h2>
+</div>
+
+<div class="row">
+  <div class="column">
+    <div class="card">
+      <form action="/recipe" method="get">
+        <%
+          if(general) { %>
+          <h2 style="color:#efefef;"> <%- general.name %> </h2>
+          <br>
+          <h3 style="color:#efefef;"> Difficulty: <%- general.difficulty %> </h3>
+          <h3 style="color:#efefef;"> Preparation Time: <%- general.prep_time %> </h3>
+          <br>
+        <% } %>
+      </form>
+      <form action="/recipe" method="get">
+        <h3 style="color:#efefef;"> Ingredients: </h3>
+        <ul style="list-style-type:disc;">
+        <%
+          if(ingredients) {
+            var ingredientList = '';
+            ingredients.forEach(function(item){
+              ingredientList += '<li>' + item.name + '</li>';
+									}); %>
+							<%- ingredientList %>
+				<% } %>
+        </ul>
+			</form>
+      <form action="/recipe" method="get">
+        <%
+          if(general) { %>
+          <h3 style="color:#efefef;"> Instructions: <%- general.body %> </h3>
+          <% } %>
+      </form>
+      <form action="/recipe" method="get">
+        <%
+          if(general) { %>
+          <h3 style="color:#efefef;"> Tutorial: </h3>
+          <iframe width="420" height="315" src= "<%- general.videolink %>"> </iframe>
+          <% } %>
+      </form>
+      <form action="/recipe" method="get">
+        <h3 style="color:#efefef;"> Reviews: </h3>
+        <u1 style="list-style-type:disc;">
+          <%
+            if(reviews) {
+              var reviewList = '';
+              reviews.forEach(function(item){
+                reviewList += '<li>' + item.username + 'Rating:' + item.rating + '<br>' + 'Comments:' + item.body + '</li>';
+              }); %>
+            <%- reviewList %>
+            <% } %>
+        </ul>
+      </form>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+// Get the modal
+var modal = document.getElementById('id01');
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+      modal.style.display = "none";
+  }
+}
+</script>
+<% include ../partials/footer %>

@@ -254,6 +254,37 @@ app.post('/register', (req, res) => {
 });
 
 /*Add your other get/post request handlers below here: */
+//recipe pages
+//IMPORTANT:
+//Need to figure out how we are going to pass recipe id from click to recipe_choice
+app.get('/recipe', function(req, res) {
+  //get choice of recipe
+  var recipe_choice = req.query.recipe_choice;
+  //get general info on recipe (name, difficulty, prep time, body, tutorial)
+  var recipe_info = "SELECT * FROM Recipes WHERE id = '" + recipe_choice + "'; ";
+  //get ingredients in recipe
+  var recipe_ingredients = "SELECT name FROM Ingredients WHERE ingredient_id = ANY(SELECT ingredients FROM Recipes)";
+  //get reviews for recipe (add in username to reviews table) (add in review_ids to recipes table)
+  var recipe_reviews = "SELECT username,body,rating FROM Reviews WHERE review_id = ANY(SELECT reviews FROM Recipes)";
+    db.task('get-recipe', task => {
+      return task.batch([
+        task.any(recipe_info),
+        task.any(recipe_ingredients),
+        task.any(recipe_reviews)
+      ]);
+    })
+    .then(info => {
+      res.render('pages/recipe', {
+        title: "Recipe Info",
+        //general is everything straight from recipes table
+        general: info[0][0],
+        //ingredients is all ingredients associated with this recipe
+        ingredients: info[1][0],
+        //reviews is all reviews associated with this recipe
+        reviews: info[2]
+      })
+    })
+});
 
 
 app.listen(port, function() {
