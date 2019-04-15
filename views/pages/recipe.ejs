@@ -3,34 +3,33 @@
 <div  style="background: #383838" class="jumbotron jumbotron-fluid">
   <h2 style="text-align:center;"><a class="title" href="/" style="color:#efefef; text-decoration: none;" class="display-4"><b>COOKI</b></a><h2>
 </div>
+<% include ../partials/messages %>
 <div id="id01" class="modal">
-  <form id="loginForm" action="/home" method="get" class="modal-content animate" >
+
+  <form id="loginForm" action="../../login" method="POST" class="modal-content animate" >
     <div class="container">
-      <label for="uname"><b>Email</b></label>
-      <input class="login-form" type="text" placeholder="Enter Email" name="uname" required>
+      <label for="email"><b>Email</b></label>
+      <input class="login-form" type="email" placeholder="Enter Email" name="username" required/>
 
       <label for="psw"><b>Password</b></label>
-      <input class="login-form" type="password" placeholder="Enter Password" name="psw" required>
+      <input class="login-form" type="password" placeholder="Enter Password" name="password" required/>
 
       <button onclick="document.getElementById("loginForm").submit();" type="submit">Login</button>
       <label>
         <input class="login-form" type="checkbox" checked="checked" name="remember"> Remember me
       </label>
-    </div>
+  </div>
 
     <div class="container" style="background-color:#efefef">
       <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-      <span class="psw" style="float: initial;">Need to <a href="/register">register?</a></span>
+      <span class="psw" style="float: initial;">Need to <a href="../../register">register?</a></span>
       <span class="psw">Forgot <a href="#">password?</a></span>
     </div>
   </form>
 </div>
 
 <div class="search-box">
-  <input class="search-txt" type="text" name="" placeholder="Search recipe ...">
-  <a class="search-btn" href="#">
-      <i onclick="" class="fas fa-caret-down"></i>
-  </a>
+  <input class="search-txt" type="text" name="" placeholder="Search recipe ..."/>
   <a class="search-btn" href="#">
       <i class="fas fa-search"></i>
   </a>
