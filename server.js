@@ -265,7 +265,7 @@ app.get('/recipe', function(req, res) {
   //get ingredients in recipe
   var recipe_ingredients = "SELECT name FROM Ingredients WHERE ingredient_id = ANY(SELECT ingredients FROM Recipes)";
   //get reviews for recipe (add in username to reviews table) (add in review_ids to recipes table)
-  var recipe_reviews = "SELECT username,body,rating FROM Reviews WHERE review_id = ANY(SELECT reviews FROM Recipes)";
+  var recipe_reviews = "SELECT username,body,rating FROM Reviews WHERE review_id = ANY(SELECT reviews FROM Recipes WHERE id = '" + recipe_choice + "')";
     db.task('get-recipe', task => {
       return task.batch([
         task.any(recipe_info),
