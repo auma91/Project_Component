@@ -260,7 +260,7 @@ app.post('/register', (req, res) => {
 app.get('/recipe', function(req, res) {
   res.render('pages/recipe', {
     local_css: "homepage.css",
-    my_title: "Recipe",
+    my_title: "Penis",
     title: "Recipe Info",
     //general is everything straight from recipes table
     general: "",
