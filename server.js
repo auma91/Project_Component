@@ -140,15 +140,7 @@ app.post('/login', passport.authenticate('local', {
   successRedirect: '/',
   failureRedirect: '/login',
   failureFlash: true
-  }), function(req, res) {
-    //console.log(req.user);
-    if (req.body.remember) {
-      req.session.cookie.maxAge = 10 * 24 * 60 * 60 * 1000; // Cookie expires after 10 days
-    } else {
-      req.session.cookie.expires = false; // Cookie expires at end of session
-    }
-    res.redirect('/');
-  }
+  })
 );
 
 app.get('/logout', function(req, res){
@@ -258,9 +250,9 @@ app.post('/register', (req, res) => {
 //IMPORTANT:
 //Need to figure out how we are going to pass recipe id from click to recipe_choice
 app.get('/recipe', function(req, res) {
-  res.render('pages/recipe', {
+  /*res.render('pages/recipe', {
     local_css: "homepage.css",
-    my_title: "Penis",
+    my_title: "recipe ex",
     title: "Recipe Info",
     //general is everything straight from recipes table
     general: "",
@@ -269,7 +261,7 @@ app.get('/recipe', function(req, res) {
     //reviews is all reviews associated with this recipe
     reviews: "",
     loginname: "Login"
-  })
+  })*/
   //get choice of recipe
 
   // var recipe_choice = req.query.recipe_choice; HARD CODE FOR TEST
@@ -288,11 +280,13 @@ app.get('/recipe', function(req, res) {
     })
     .then(info => {
       res.render('pages/recipe', {
-        title: "Recipe Info",
+        my_title: "Recipe Info",
         //general is everything straight from recipes table
+        local_css:"homepage.css",
+        loginname: "",
         general: info[0][0],
         //ingredients is all ingredients associated with this recipe
-        ingredients: info[1][0],
+        ingredients: info[1],
         //reviews is all reviews associated with this recipe
         reviews: info[2]
       })
