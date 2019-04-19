@@ -258,14 +258,27 @@ app.post('/register', (req, res) => {
 //IMPORTANT:
 //Need to figure out how we are going to pass recipe id from click to recipe_choice
 app.get('/recipe', function(req, res) {
+  res.render('pages/recipe', {
+    local_css: "homepage.css",
+    my_title: "Recipe",
+    title: "Recipe Info",
+    //general is everything straight from recipes table
+    general: "",
+    //ingredients is all ingredients associated with this recipe
+    ingredients: "",
+    //reviews is all reviews associated with this recipe
+    reviews: "",
+    loginname: "Login"
+  })
   //get choice of recipe
-  var recipe_choice = req.query.recipe_choice;
+
+  // var recipe_choice = req.query.recipe_choice; HARD CODE FOR TEST
   //get general info on recipe (name, difficulty, prep time, body, tutorial)
-  var recipe_info = "SELECT * FROM Recipes WHERE id = '" + recipe_choice + "'; ";
+  var recipe_info = "SELECT * FROM Recipes WHERE recipe_id = 1;";
   //get ingredients in recipe
-  var recipe_ingredients = "SELECT name FROM Ingredients WHERE ingredient_id = ANY(SELECT ingredients FROM Recipes)";
+  var recipe_ingredients = "SELECT name FROM Ingredients WHERE ingredient_id = ANY(SELECT unnest(ingredients) FROM Recipes WHERE recipe_id = 1);";
   //get reviews for recipe (add in username to reviews table) (add in review_ids to recipes table)
-  var recipe_reviews = "SELECT username,body,rating FROM Reviews WHERE review_id = ANY(SELECT reviews FROM Recipes WHERE id = '" + recipe_choice + "')";
+  var recipe_reviews = "SELECT username,body,rating FROM Reviews WHERE review_id = ANY(SELECT unnest(review_ids) FROM Recipes WHERE recipe_id = 1);";
     db.task('get-recipe', task => {
       return task.batch([
         task.any(recipe_info),

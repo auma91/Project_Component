@@ -1,9 +1,9 @@
 <% include ../partials/header %>
-<button onclick="document.getElementById('id01').style.display='block'" type="submit" class="login-button" style="width:auto;"><%- loginname%></button>
+<button onclick="document.getElementById('id01').style.display='block'" type="submit" class="login-button" style="width:auto;"><%- loginname %></button>
 <div  style="background: #383838" class="jumbotron jumbotron-fluid">
   <h2 style="text-align:center;"><a class="title" href="/" style="color:#efefef; text-decoration: none;" class="display-4"><b>COOKI</b></a><h2>
 </div>
-<% include ../partials/messages %>
+
 <div id="id01" class="modal">
 
   <form id="loginForm" action="../../login" method="POST" class="modal-content animate" >
@@ -34,26 +34,19 @@
       <i class="fas fa-search"></i>
   </a>
 </div>
-
-<div  style="background: #383838" class="jumbotron jumbotron-fluid">
-  <h2 style="text-align:center;"><a class="title" href="#" style="color:#efefef; text-decoration: none;" class="display-4"><b>FEATURED RECIPES</b></a><h2>
-</div>
-
 <div class="row">
-  <div class="column">
+  <div class="col d-flex justify-content-center">
     <div class="card">
       <form action="/recipe" method="get">
         <%
           if(general) { %>
-          <h2 style="color:#efefef;"> <%- general.name %> </h2>
-          <br>
-          <h3 style="color:#efefef;"> Difficulty: <%- general.difficulty %> </h3>
-          <h3 style="color:#efefef;"> Preparation Time: <%- general.prep_time %> </h3>
-          <br>
+          <h2 style="color:#0000FF;"> <%- general.name %> </h2>
+          <h3 style="color:#0000FF;"> Difficulty: <%- general.difficulty %> </h3>
+          <h3 style="color:#0000FF;"> Preparation Time: <%- general.prep_time %> </h3
         <% } %>
       </form>
       <form action="/recipe" method="get">
-        <h3 style="color:#efefef;"> Ingredients: </h3>
+        <h3 style="color:#0000FF;"> Ingredients: </h3>
         <ul style="list-style-type:disc;">
         <%
           if(ingredients) {
@@ -68,18 +61,18 @@
       <form action="/recipe" method="get">
         <%
           if(general) { %>
-          <h3 style="color:#efefef;"> Instructions: <%- general.body %> </h3>
+          <h3 style="color:#0000FF;"> Instructions: <%- general.body %> </h3>
           <% } %>
       </form>
       <form action="/recipe" method="get">
         <%
           if(general) { %>
-          <h3 style="color:#efefef;"> Tutorial: </h3>
+          <h3 style="color:#0000FF;"> Tutorial: </h3>
           <iframe width="420" height="315" src= "<%- general.videolink %>"> </iframe>
           <% } %>
       </form>
       <form action="/recipe" method="get">
-        <h3 style="color:#efefef;"> Reviews: </h3>
+        <h3 style="color:#0000FF;"> Reviews: </h3>
         <u1 style="list-style-type:disc;">
           <%
             if(reviews) {
