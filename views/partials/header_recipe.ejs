@@ -14,9 +14,7 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <!-- Custom styles for this template -->
-    <% if(typeof local_css == 'string' && local_css){ %>
-  	 <link href="../../resources/css/<%=local_css%>" rel="stylesheet">
-  	<% } %>
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -25,16 +23,144 @@
     <script defer src="https://use.fontawesome.com/releases/v5.8.1/js/all.js" integrity="sha384-g5uSoOSBd7KkhAMlnQILrecXvzst9TdC09/VM+pjDTCM+1il8RHz5fKANTFFb+gQ" crossorigin="anonymous"></script>
 
     <style>
-    body {font-family: "Lato", sans-serif}
+    body {
+      font-family: "Lato", sans-serif;
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      background: #383838 !important;
+    }
     .mySlides {display: none}
 
     #rcorners1 {
-  border-radius: 25px;
-  text-align: center;
-  background: #ffcc00;
-  padding: 20px;
-  width: 200px;
-  height: 70px;
-}
+      border-radius: 25px;
+      text-align: center;
+      background: #ffcc00;
+      padding: 20px;
+      width: 200px;
+      height: 70px;
+    }
+    .search-box{
+      position: absolute;
+      top: 100px;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      background: #4f4f4f;
+      height: 60px;
+      border-radius: 40px;
+      padding: 10px;
+    }
+
+    .search-btn {
+      color: #efefef;
+      float: right;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #4f4f4f;
+      display: flex;
+      justify-content:center;
+      align-items:center;
+      transition: 0.6s;
+    }
+
+    .search-box:hover > .search-txt {
+      width: 620px;
+      padding: 0 6px;
+    }
+
+    .search-box:hover > .search-btn {
+      background: #efefef;
+      color: #4f4f4f;
+    }
+
+    .search-txt{
+      border: none;
+      background: none;
+      outline: none;
+      float: left;
+      padding: 0;
+      color: #efefef;
+      font-size: 16px;
+      transition: 0.6s;
+      line-height: 40px;
+      width: 0px;
+    }
+
+    /* Full-width input fields */
+    .login-form[type=email], .login-form[type=password] {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+    /* Set a style for all buttons */
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      cursor: pointer;
+      width: 100%;
+      border-radius: 40px;
+    }
+
+    button:hover {
+      opacity: 0.8;
+    }
+
+    .box{
+      width: 400px;
+      padding: 40px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,50%);
+      background: #191919;
+    }
+    .box h1 {
+      color:white;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+    .box input[type="email"],.box input[type="password"] {
+      border: 0;
+      background: none;
+      display: block;
+      margin: 20px auto;
+      text-align: center;
+      border: 2px solid #3498db;
+      padding: 14px 10px;
+      width: 200px;
+      outline: none;
+      color: white;
+      border-radius: 24px;
+      transition: 0.25s;
+    }
+    .box input[type="email"]:focus, .box input[type="password"]:focus {
+      width: 280px;
+      border-color: #2ecc71;
+    }
+    .box input[type = "submit"], .box input[type = "button"] {
+      border: 0;
+      background: none;
+      display: block;
+      margin: 20px auto;
+      text-align: center;
+      border: 2px solid #2ecc71;
+      padding: 14px 40px;
+      outline: none;
+      color: white;
+      border-radius: 24px;
+      cursor: pointer;
+    }
+    .box input[type = "submit"]:hover, .box input[type = "button"]:hover{
+      background: #2ecc71;
+    }
     </style>
   </head>
+  <body>
