@@ -7,13 +7,13 @@ body,html{
 }
 
 .search-box{
-  position: absolute;
+  position: inherit;
   top: 17.5%;
   left: 50%;
   transform: translate(-50%,-50%);
   background: #4f4f4f;
   height: 60px;
-  border-radius: 40px;
+  border-radius: 60px;
   padding: 10px;
 }
 

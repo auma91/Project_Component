@@ -1,9 +1,19 @@
-<% include ../partials/header %>
-<button onclick="document.getElementById('id01').style.display='block'" type="submit" class="login-button" style="width:auto;"><%- loginname %></button>
-<div  style="background: #383838" class="jumbotron jumbotron-fluid">
-  <h2 style="text-align:center;"><a class="title" href="/" style="color:#efefef; text-decoration: none;" class="display-4"><b>COOKI</b></a><h2>
-</div>
+<% include ../partials/header_recipe %>
 
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-black w3-card">
+    <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+    <a href="http://localhost:8080/" class="w3-bar-item w3-button w3-padding-large w3-hover-red">COOKI</a>
+    <button onclick="document.getElementById('id01').style.display='block'" type="submit" class="w3-bar-item w3-padding-large w3-button w3-hover-red" title="LOGIN">LOGIN</button>
+    <div class="search-box">
+      <input class="search-txt" type="text" name="" placeholder="Search recipe..."/>
+      <a href="javascript:void(0)" class="w3-padding-large w3-hover-red w3-hide-small w3-right"><i class="fa fa-search"></i></a>
+    </div>
+  </div>
+</div
+
+<!-- login modal -->
 <div id="id01" class="w3-modal">
     <div class="w3-modal-content w3-animate-top w3-card-4">
       <div class="w3-container">
@@ -21,64 +31,64 @@
     </div>
 </div>
 
-<div class="search-box">
-  <input class="search-txt" type="text" name="" placeholder="Search recipe ..."/>
-  <a class="search-btn" href="#">
-      <i class="fas fa-search"></i>
-  </a>
-</div>
-<div class="row">
-  <div class="col d-flex justify-content-center">
-    <div class="card">
-      <form action="/recipe" method="get">
-        <%
-          if(general) { %>
-          <h2 style="color:#0000FF;"> <%- general.name %> </h2>
-          <h3 style="color:#0000FF;"> Difficulty: <%- general.difficulty %> </h3>
-          <h3 style="color:#0000FF;"> Preparation Time: <%- general.prep_time %> </h3
-        <% } %>
-      </form>
-      <form action="/recipe" method="get">
-        <h3 style="color:#0000FF;"> Ingredients: </h3>
-        <ul style="list-style-type:disc;">
-        <%
-          if(ingredients) {
-            var ingredientList = '';
-            ingredients.forEach(function(item){
-              ingredientList += '<li>' + item.name + '</li>';
-									}); %>
-							<%- ingredientList %>
-				<% } %>
-        </ul>
-			</form>
-      <form action="/recipe" method="get">
-        <%
-          if(general) { %>
-          <h3 style="color:#0000FF;"> Instructions: <%- general.body %> </h3>
-          <% } %>
-      </form>
-      <form action="/recipe" method="get">
-        <%
-          if(general) { %>
-          <h3 style="color:#0000FF;"> Tutorial: </h3>
-          <iframe width="420" height="315" src= "<%- general.videolink %>"> </iframe>
-          <% } %>
-      </form>
-      <form action="/recipe" method="get">
-        <h3 style="color:#0000FF;"> Reviews: </h3>
-        <u1 style="list-style-type:disc;">
-          <%
-            if(reviews) {
-              var reviewList = '';
-              reviews.forEach(function(item){
-                reviewList += '<li>' + item.username + 'Rating:' + item.rating + '<br>' + 'Comments:' + item.body + '</li>';
-              }); %>
-            <%- reviewList %>
-            <% } %>
-        </u1>
-      </form>
-    </div>
+<!-- Page content -->
+<div class="w3-content" style="max-width:2000px;margin-top:46px">
+  <!-- Recipe Image -->
+  <div class="w3-display-container w3-center">
+    <form action="/recipe" method="get">
+      <%
+        if(general) { %>
+            <img src="https://foodrevolution.org/wp-content/uploads/2018/04/blog-featured-diabetes-20180406-1330.jpg" style="width:100%">
+      <% } %>
+    </form>
   </div>
+</div>
+<!-- Recipe Information -->
+<div class="w3-container w3-teal w3-content w3-center w3-padding-64" style="max-width:800px" id="recipe_info">
+  <form action="/recipe" method="get">
+    <%
+      if(general) { %>
+          <h2 class="w3-wide"> <%- general.name %> </h2>
+          <p class="w3-wide"> <i> Difficulty: <%- general.difficulty %>/10 <br> <br> Preparation Time: <%- general.prep_time %>  </i> </p>
+        <% } %>
+  </form>
+  <form action="/recipe" method="get">
+    <p class="w3-wide"> <i> <br> Ingredients: </i> </p>
+      <%
+        if(ingredients) {
+          var ingredientList ='';
+          ingredients.forEach(function(item){
+            ingredientList += '<i>' + item.name + ' </i> <br>';
+          }); %>
+          <%- ingredientList %>
+      <% } %>
+  </form>
+  <form action="/recipe" method="get">
+    <%
+      if(general) { %>
+      <p class="w3-wide"> <i> <br> Instructions: </i> </p>
+      <p class="w3-justify"> <br> <%-general.body %> </p>
+    <% } %>
+  </form>
+  <form action="/recipe" method="get">
+    <%
+      if(general) { %>
+        <p class="w3-wide"> <i> <br> Tutorial: </i> </p>
+        <iframe width="420" height="315" src="<%- general.videolink %>"> </iframe>
+        <% } %>
+  </form>
+  <form action="/recipe" method="get">
+    <p class="w3-wide"> <i> <br> Reviews: </i> </p>
+    <%
+      if(reviews) {
+        var reviewList ='';
+        reviews.forEach(function(item){
+          reviewList += '<p class="w3-justify"> <i> Comment by: ' + item.username + '<br>' + 'Rating: ' + item.rating + '/10 <br>' + '</i> </p>'
+                        + '<p id="rcorners1">' + item.body + '</p>';
+        }); %>
+        <%- reviewList %>
+      <% } %>
+  </form>
 </div>
 <script type="text/javascript">
 // Get the modal
