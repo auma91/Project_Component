@@ -10,7 +10,7 @@ var bodyParser = require('body-parser'); //Ensure our body-parser tool has been 
 var passport = require("passport"); //login system
 var session = require("express-session"); //expressSession
 var flash = require('connect-flash'); //will allow for alerts
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt-nodejs')
 app.use(bodyParser.json());              // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 const expressSession = require('express-session');
@@ -218,24 +218,19 @@ app.post('/register', (req, res) => {
           email: req.body.email,
           password: req.body.password
         }
-        bcrypt.genSalt(5, (err, salt) => {
-          bcrypt.hash(password, salt, (err, hash) => {
-            if (err) throw err;
-            var pass = hash;
-            db.none("INSERT INTO users(name, email, password) VALUES('" + name + "', '" + email + "', '" + pass + "');")
-            .then(() => {
-              // success;
-              req.flash(
-                'success_msg',
-                'You are now registered and can log in'
-              )
-              res.redirect('/login');
-            })
-            .catch(error => {
-              // error;
-              console.log(err)
-            });
-          });
+        var pass = bcrypt.hashSync(password);;
+        db.none("INSERT INTO users(name, email, password) VALUES('" + name + "', '" + email + "', '" + pass + "');")
+        .then(() => {
+          // success;
+          req.flash(
+            'success_msg',
+            'You are now registered and can log in'
+          )
+          res.redirect('/login');
+        })
+        .catch(error => {
+          // error;
+          console.log(err)
         });
       }
     })
