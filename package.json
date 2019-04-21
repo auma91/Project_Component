@@ -2,7 +2,8 @@
   "name": "cooki",
   "main": "server.js",
   "engines": {
-    "node": "11.14.0"
+    "node": "11.14.0",
+    "npm": "6.7.0"
   },
   "dependencies": {
     "bcrypt": "^3.0.5",
