@@ -34,11 +34,11 @@ var loggedin = false;
   password: This the password for accessing the database.  You'll need to set a password USING THE PSQL TERMINAL THIS IS NOT A PASSWORD FOR POSTGRES USER ACCOUNT IN LINUX!
 **********************/
 const dbConfig = {
-	host: 'ec2-107-20-177-161.compute-1.amazonaws.com',
+	host: 'ec2-50-17-246-114.compute-1.amazonaws.com',
 	port: 5432,
-	database: 'd22mr3m4netqs8',
-	user: 'xbhtcypzgcjpuk',
-	password: '75a929bd6e0d7df76ddfa48a2bf3e38a5f005b938ba74fe490b2f7bebcd2efde',
+	database: 'dc9sh8asjaab1d',
+	user: 'nbonaqcrbetdgo',
+	password: 'cad36c22ea52e000d938c0b89cc6adc1b61f9b5b40a6a73c46b0cc49856489ab',
   ssl: true
 };
 

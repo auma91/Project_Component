@@ -2,9 +2,9 @@
 <div  style="background: #383838" class="jumbotron jumbotron-fluid">
   <h2 style="text-align:center;"><a href="/" style="color:#efefef; text-decoration: none;" class="display-4"><b>COOKI</b></a><h2>
 </div>
-<div style="width: 81%; margin-left : 9.5%; border-radius: 10px; background-color: #383838;">
+<div>
   <% include ../partials/messages %>
-  <form id="registerForm" action="../../register" method="POST" style="width: 98%; margin-left : 1%;">
+  <form  class = "box" id="registerForm" action="../../register" method="POST" style="width: 98%; margin-left : 1%;">
     <div class="form-group">
       <br>
       <label for="name">Name</label>
@@ -46,9 +46,7 @@
       <br></br>
 
     </div>
-    <button onclick="document.getElementById("registerForm").submit();" type="submit" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-      submit
-    </button>
+    <input type="submit" value="Login">
     <br>
   </form>
 </div>
