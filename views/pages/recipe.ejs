@@ -11,7 +11,7 @@
       <a href="javascript:void(0)" class="w3-padding-large w3-hover-red w3-hide-small w3-right"><i class="fa fa-search"></i></a>
     </div>
   </div>
-</div
+</div>
 
 <!-- login modal -->
 <div id="id01" class="w3-modal">
@@ -32,7 +32,7 @@
 </div>
 
 <!-- Page content -->
-<div class="w3-content" style="max-width:2000px;margin-top:46px">
+<div class="w3-content" style="max-width:100%;">
   <!-- Recipe Image -->
   <div class="w3-display-container w3-center">
     <form action="/recipe" method="get">
@@ -44,7 +44,7 @@
   </div>
 </div>
 <!-- Recipe Information -->
-<div class="w3-container w3-teal w3-content w3-center w3-padding-64" style="max-width:800px" id="recipe_info">
+<div class="w3-container w3-teal w3-content w3-center w3-padding-64" style="max-width:80%" id="recipe_info">
   <form action="/recipe" method="get">
     <%
       if(general) { %>
@@ -74,7 +74,7 @@
     <%
       if(general) { %>
         <p class="w3-wide"> <i> <br> Tutorial: </i> </p>
-        <iframe width="420" height="315" src="<%- general.videolink %>"> </iframe>
+        <iframe width="700" height="400" src="<%- general.videolink %>"> </iframe>
         <% } %>
   </form>
   <form action="/recipe" method="get">

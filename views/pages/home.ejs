@@ -1,9 +1,17 @@
 <% include ../partials/header %>
-<button onclick="document.getElementById('id01').style.display='block'" type="submit" class="login-button" style="width:auto;border-radius: 40px;"><%- loginname%></button>
-<div  style="background: #383838" class="jumbotron jumbotron-fluid">
-  <h2 style="text-align:center;"><a class="title" href="/" style="color:#efefef; text-decoration: none;" class="display-4"><b>COOKI</b></a><h2>
-</div>
 <% include ../partials/messages %>
+<div class="w3-top">
+  <div class="w3-bar w3-black w3-card">
+    <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+    <a href="/" class="w3-bar-item w3-button w3-padding-large w3-hover-red">COOKI</a>
+    <button class="w3-bar-item w3-padding-large w3-button w3-hover-red" style="align:right;" onclick="document.getElementById('id01').style.display='block'" type="submit" title="LOGIN">LOGIN</button>
+    <div class="search-box">
+      <input class="search-txt" type="text" name="" placeholder="Search recipe..."/>
+      <a href="javascript:void(0)" class="w3-padding-large w3-hover-red w3-hide-small w3-right"><i class="fa fa-search"></i></a>
+    </div>
+  </div>
+</div>
+
 <div id="id01" class="w3-modal">
     <div class="w3-modal-content w3-animate-top w3-card-4">
       <div class="w3-container">
@@ -21,12 +29,6 @@
     </div>
 </div>
 
-<div class="search-box">
-  <input class="search-txt" type="text" name="" placeholder="Search recipe ..."/>
-  <a class="search-btn" href="#">
-      <i class="fas fa-search"></i>
-  </a>
-</div>
 
 <div  style="background: #383838" class="jumbotron jumbotron-fluid">
   <h2 style="text-align:center;"><a class="title" href="#" style="color:#efefef; text-decoration: none;" class="display-4"><b>FEATURED RECIPES</b></a><h2>
