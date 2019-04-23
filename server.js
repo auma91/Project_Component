@@ -289,9 +289,64 @@ app.get('/recipe', function(req, res) {
 });
 
 
+app.post('/search', function(req, res) {
+  var search = req.body.search;
+  console.log("This was the passed search: " + search);
+  res.redirect("/search?search="+search+"");
+});
+
+app.get('/search', function(req, res) {
+  var search_query = req.query.search;
+  if(search_query==null) {
+    console.log("its nothing");
+    db.task('get-recipe', task => {
+      return task.batch([
+        task.any('SELECT * FROM Recipes;')
+      ]);
+    })
+    .then(info => {
+      console.log(info[0]);
+      res.render('pages/search', {
+        my_title: "Recipes",
+        local_css: "homepage.css",
+        list: info[0]
+      });
+    })
+  }
+  else {
+    var query = "SELECT * FROM Recipes WHERE";
+    var params = (search_query.toLowerCase()).split(" ");
+    if(params.length>1) {
+      for(var i = 0; i < params.length; i++) {
+        if(i>0) {query+= " AND position('" + params[i] + "' in LOWER(name))>0";}
+        else {query+= " position('" + params[i] + "' in LOWER(name))>0";}
+      }
+      query+=";";
+    }
+    else {query+= " position('" + params[0] + "' in LOWER(name))>0;";}
+    console.log("This is the query I got: " + query);
+    db.task('get-recipe', task => {
+      return task.batch([
+        task.any(query)
+      ]);
+    })
+    .then(info => {
+      console.log(info[0]);
+      res.render('pages/search', {
+        my_title: "Recipes",
+        local_css: "homepage.css",
+        list: info[0]
+      });
+    })
+  }
+  console.log("This is the query i got: " + search_query);
+  //res.send("success to search: " + search);
+});
+
 app.listen(port, function() {
     console.log('Our app is running on http://localhost:' + port);
 });
+
 console.log('8080 is the magic port');
 
 

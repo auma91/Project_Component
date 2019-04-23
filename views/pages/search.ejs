@@ -1,0 +1,319 @@
+<% include ../partials/header %>
+<div class="w3-top">
+  <div class="w3-bar w3-black w3-card">
+    <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+    <a href="/" class="w3-bar-item w3-button w3-padding-large w3-hover-red">COOKI</a>
+    <button class="w3-bar-item w3-padding-large w3-button w3-hover-red" style="align:right;" onclick="document.getElementById('id01').style.display='block'" type="submit" title="LOGIN">LOGIN</button>
+    <div class="search-box">
+      <input class="search-txt" type="text" name="" placeholder="Search recipe..."/>
+      <a href="javascript:void(0)" class="w3-padding-large w3-hide-small w3-right"><i class="fa fa-search"></i></a>
+    </div>
+  </div>
+</div>
+<div id="id01" class="w3-modal">
+    <div class="w3-modal-content w3-animate-top w3-card-4">
+      <div class="w3-container">
+        <form class = "box" action="../../login" method="POST" class="modal-content animate" >
+          <span onclick="document.getElementById('id01').style.display='none'"
+            class="w3-button w3-display-topright">&times;</span>
+          <h1 style="text-align:center;">Login</h1>
+          <input type="email" placeholder="Enter Email" name="username" required>
+          <input type="password" placeholder="Password" name="password" required>
+          <input type="submit" value="Login">
+          <a href="../../register"><input type="button" value="Register?"></a>
+          <br>
+        </form>
+      </div>
+    </div>
+</div>
+<br>
+
+<%
+  if(list) {
+    var mod = list.length%3;
+    var recipes ='';
+    if(mod == 0) {
+      for(var i = 0; i < list.length; i = i + 3) {
+        if(i!=0) {
+          recipes += '' +
+          '<div class="row">' +
+            '<div class="column" style="background-color:#aaa;">' +
+              '<div class="card">'+
+                '<iframe style= "width:100%" width="500" height="300" src="' + list[i].videolink + '"> </iframe>' +
+                '<div class="container">' +
+                  '<h4><b>' + list[i].name + '</b></h4>' +
+                  '<p> Prep time: ' + list[i].prep_time + '</p>' +
+                  '<p> Difficulty: ' + list[i].difficulty + '</p>' +
+                '</div>' +
+              '</div>' +
+            '</div>'+
+            '<div class="column" style="background-color:#aaa;">' +
+              '<div class="card">'+
+                '<iframe style= "width:100%" width="500" height="300" src="' + list[i+1].videolink + '"> </iframe>' +
+                '<div class="container">' +
+                  '<h4><b>' + list[i+1].name + '</b></h4>' +
+                  '<p> Prep time: ' + list[i+1].prep_time + '</p>' +
+                  '<p> Difficulty: ' + list[i+1].difficulty + '</p>' +
+                '</div>' +
+              '</div>' +
+            '</div>'+
+            '<div class="column" style="background-color:#aaa;">' +
+              '<div class="card">'+
+                '<iframe style= "width:100%" width="500" height="300" src="' + list[i+2].videolink + '"> </iframe>' +
+                '<div class="container">' +
+                  '<h4><b>' + list[i+2].name + '</b></h4>' +
+                  '<p> Prep time: ' + list[i+2].prep_time + '</p>' +
+                  '<p> Difficulty: ' + list[i+2].difficulty + '</p>' +
+                '</div>' +
+              '</div>' +
+            '</div>'+
+          '</div>';
+        }
+        else {
+          recipes += '' +
+          '<div style="padding-top: 10%;"class="row">' +
+            '<div class="column" style="background-color:#aaa;">' +
+              '<div class="card">'+
+                '<iframe style= "width:100%" width="500" height="300" src="' + list[i].videolink + '"> </iframe>' +
+                '<div class="container">' +
+                  '<h4><b>' + list[i].name + '</b></h4>' +
+                  '<p> Prep time: ' + list[i].prep_time + '</p>' +
+                  '<p> Difficulty: ' + list[i].difficulty + '</p>' +
+                '</div>' +
+              '</div>' +
+            '</div>'+
+            '<div class="column" style="background-color:#aaa;">' +
+              '<div class="card">'+
+                '<iframe style= "width:100%" width="500" height="300" src="' + list[i+1].videolink + '"> </iframe>' +
+                '<div class="container">' +
+                  '<h4><b>' + list[i+1].name + '</b></h4>' +
+                  '<p> Prep time: ' + list[i+1].prep_time + '</p>' +
+                  '<p> Difficulty: ' + list[i+1].difficulty + '</p>' +
+                '</div>' +
+              '</div>' +
+            '</div>'+
+            '<div class="column" style="background-color:#aaa;">' +
+              '<div class="card">'+
+                '<iframe style= "width:100%" width="500" height="300" src="' + list[i+2].videolink + '"> </iframe>' +
+                '<div class="container">' +
+                  '<h4><b>' + list[i+2].name + '</b></h4>' +
+                  '<p> Prep time: ' + list[i+2].prep_time + '</p>' +
+                  '<p> Difficulty: ' + list[i+2].difficulty + '</p>' +
+                '</div>' +
+              '</div>' +
+            '</div>'+
+          '</div>';
+        }
+      }
+    }
+    else {
+      for(var i = 0; i < list.length-mod; i = i + 3) {
+        if(i!=0) {
+          recipes += '' +
+          '<div class="row">' +
+            '<div class="column" style="background-color:#aaa;">' +
+              '<div class="card">'+
+                '<iframe style= "width:100%" width="500" height="300" src="' + list[i].videolink + '"> </iframe>' +
+                '<div class="container">' +
+                  '<h4><b>' + list[i].name + '</b></h4>' +
+                  '<p> Prep time: ' + list[i].prep_time + '</p>' +
+                  '<p> Difficulty: ' + list[i].difficulty + '</p>' +
+                '</div>' +
+              '</div>' +
+            '</div>'+
+            '<div class="column" style="background-color:#aaa;">' +
+              '<div class="card">'+
+                '<iframe style= "width:100%" width="500" height="300" src="' + list[i+1].videolink + '"> </iframe>' +
+                '<div class="container">' +
+                  '<h4><b>' + list[i+1].name + '</b></h4>' +
+                  '<p> Prep time: ' + list[i+1].prep_time + '</p>' +
+                  '<p> Difficulty: ' + list[i+1].difficulty + '</p>' +
+                '</div>' +
+              '</div>' +
+            '</div>'+
+            '<div class="column" style="background-color:#aaa;">' +
+              '<div class="card">'+
+                '<iframe style= "width:100%" width="500" height="300" src="' + list[i+2].videolink + '"> </iframe>' +
+                '<div class="container">' +
+                  '<h4><b>' + list[i+2].name + '</b></h4>' +
+                  '<p> Prep time: ' + list[i+2].prep_time + '</p>' +
+                  '<p> Difficulty: ' + list[i+2].difficulty + '</p>' +
+                '</div>' +
+              '</div>' +
+            '</div>'+
+          '</div>';
+        }
+        else {
+          recipes += '' +
+          '<div style="padding-top: 10%;"class="row">' +
+            '<div class="column" style="background-color:#aaa;">' +
+              '<div class="card">'+
+                '<iframe style= "width:100%" width="500" height="300" src="' + list[i].videolink + '"> </iframe>' +
+                '<div class="container">' +
+                  '<h4><b>' + list[i].name + '</b></h4>' +
+                  '<p> Prep time: ' + list[i].prep_time + '</p>' +
+                  '<p> Difficulty: ' + list[i].difficulty + '</p>' +
+                '</div>' +
+              '</div>' +
+            '</div>'+
+            '<div class="column" style="background-color:#aaa;">' +
+              '<div class="card">'+
+                '<iframe style= "width:100%" width="500" height="300" src="' + list[i+1].videolink + '"> </iframe>' +
+                '<div class="container">' +
+                  '<h4><b>' + list[i+1].name + '</b></h4>' +
+                  '<p> Prep time: ' + list[i+1].prep_time + '</p>' +
+                  '<p> Difficulty: ' + list[i+1].difficulty + '</p>' +
+                '</div>' +
+              '</div>' +
+            '</div>'+
+            '<div class="column" style="background-color:#aaa;">' +
+              '<div class="card">'+
+                '<iframe style= "width:100%" width="500" height="300" src="' + list[i+2].videolink + '"> </iframe>' +
+                '<div class="container">' +
+                  '<h4><b>' + list[i+2].name + '</b></h4>' +
+                  '<p> Prep time: ' + list[i+2].prep_time + '</p>' +
+                  '<p> Difficulty: ' + list[i+2].difficulty + '</p>' +
+                '</div>' +
+              '</div>' +
+            '</div>'+
+          '</div>';
+        }
+      }
+      var len = list.length - mod;
+      if(mod == 2) {
+        if(list.length > 3) {
+          recipes += '' +
+          '<div class="row">' +
+            '<div class="column" style="background-color:#aaa;">' +
+              '<div class="card">'+
+                '<iframe style= "width:100%" width="500" height="300" src="' + list[len].videolink + '"> </iframe>' +
+                '<div class="container">' +
+                  '<h4><b>' + list[len].name + '</b></h4>' +
+                  '<p> Prep time: ' + list[len].prep_time + '</p>' +
+                  '<p> Difficulty: ' + list[len].difficulty + '</p>' +
+                '</div>' +
+              '</div>' +
+            '</div>'+
+            '<div class="column" style="opacity: 0.0;">' +
+              '<div class="card">'+
+                '<div class="container">' +
+                '</div>' +
+              '</div>' +
+            '</div>'+
+            '<div class="column" style="background-color:#aaa;">' +
+              '<div class="card">'+
+                '<iframe style= "width:100%" width="500" height="300" src="' + list[len+1].videolink + '"> </iframe>' +
+                '<div class="container">' +
+                  '<h4><b>' + list[len+1].name + '</b></h4>' +
+                  '<p> Prep time: ' + list[len+1].prep_time + '</p>' +
+                  '<p> Difficulty: ' + list[len+1].difficulty + '</p>' +
+                '</div>' +
+              '</div>' +
+            '</div>'+
+          '</div>';
+        }
+        else {
+          recipes += '' +
+          '<div style="padding-top: 10%;"class="row">' +
+            '<div class="column" style="background-color:#aaa;">' +
+              '<div class="card">'+
+                '<iframe style= "width:100%" width="500" height="300" src="' + list[len].videolink + '"> </iframe>' +
+                '<div class="container">' +
+                  '<h4><b>' + list[len].name + '</b></h4>' +
+                  '<p> Prep time: ' + list[len].prep_time + '</p>' +
+                  '<p> Difficulty: ' + list[len].difficulty + '</p>' +
+                '</div>' +
+              '</div>' +
+            '</div>'+
+            '<div class="column" style="opacity: 0.0;">' +
+              '<div class="card">'+
+                '<div class="container">' +
+                '</div>' +
+              '</div>' +
+            '</div>'+
+            '<div class="column" style="background-color:#aaa;">' +
+              '<div class="card">'+
+                '<iframe style= "width:100%" width="500" height="300" src="' + list[len+1].videolink + '"> </iframe>' +
+                '<div class="container">' +
+                  '<h4><b>' + list[len+1].name + '</b></h4>' +
+                  '<p> Prep time: ' + list[len+1].prep_time + '</p>' +
+                  '<p> Difficulty: ' + list[len+1].difficulty + '</p>' +
+                '</div>' +
+              '</div>' +
+            '</div>'+
+          '</div>';
+        }
+      }
+      else {
+        if(list.length > 3) {
+          recipes += '' +
+          '<div class="row">' +
+            '<div class="column" style="opacity: 0.0;">' +
+              '<div class="card">'+
+                '<div class="container">' +
+                '</div>' +
+              '</div>' +
+            '</div>'+
+            '<div class="column" style="opacity: 0.0;">' +
+              '<div class="card">'+
+                '<iframe style= "width:100%" width="500" height="300" src="' + list[len].videolink + '"> </iframe>' +
+                '<div class="container">' +
+                  '<h4><b>' + list[len].name + '</b></h4>' +
+                  '<p> Prep time: ' + list[len].prep_time + '</p>' +
+                  '<p> Difficulty: ' + list[len].difficulty + '</p>' +
+                '</div>' +
+              '</div>' +
+            '</div>'+
+            '<div class="column" style="opacity: 0.0;">' +
+              '<div class="card">'+
+                '<div class="container">' +
+                '</div>' +
+              '</div>' +
+            '</div>'+
+          '</div>';
+        }
+        else {
+          recipes += '' +
+          '<div style="padding-top: 10%;"class="row">' +
+            '<div class="column" style="opacity: 0.0;">' +
+              '<div class="card">'+
+                '<div class="container">' +
+                '</div>' +
+              '</div>' +
+            '</div>'+
+            '<div class="column" style="opacity: 0.0;">' +
+              '<div class="card">'+
+                '<iframe style= "width:100%" width="500" height="300" src="' + list[len].videolink + '"> </iframe>' +
+                '<div class="container">' +
+                  '<h4><b>' + list[len].name + '</b></h4>' +
+                  '<p> Prep time: ' + list[len].prep_time + '</p>' +
+                  '<p> Difficulty: ' + list[len].difficulty + '</p>' +
+                '</div>' +
+              '</div>' +
+            '</div>'+
+            '<div class="column" style="opacity: 0.0;">' +
+              '<div class="card">'+
+                '<div class="container">' +
+                '</div>' +
+              '</div>' +
+            '</div>'+
+          '</div>';
+        }
+      }
+    }%>
+    <%- recipes %>
+  <%}
+%>
+
+<script type="text/javascript">
+// Get the modal
+var modal = document.getElementById('id01');
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+      modal.style.display = "none";
+  }
+}
+</script>
+<% include ../partials/footer %>

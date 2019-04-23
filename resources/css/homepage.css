@@ -7,6 +7,10 @@ body,html{
   background: #383838 !important;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 .search-box{
   position: absolute;
   top: 100px;
@@ -52,20 +56,6 @@ body,html{
   transition: 0.6s;
   line-height: 40px;
   width: 0px;
-}
-
-.column {
-  float: left;
-  width: 33.3333%;
-  padding: 0 10px;
-}
-
-.card {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  padding: 16px;
-  text-align: center;
-  background: #4f4f4f;
-  border-radius: 20px;
 }
 
 .login-button {
@@ -135,6 +125,51 @@ body,html{
   background: #2ecc71;
 }
 
+a.title{
+  transition: 0.5s;
+}
+
+a.title:hover{
+
+  font-size: 35pt;
+  transition: 0.5s;
+}
+
+/* Create three equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 33.33%;
+  padding: 10px;
+}
+
+.row {
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  width: 100%;
+  border-radius: 30px;
+}
+
+.card:hover {
+  box-shadow: 0 10px 20px 0 rgba(0,0,0,0.5);
+  opacity: 0.7;
+}
+
+.container {
+  padding-left: 50%;
+}
+
 /* Add Zoom Animation */
 .animate {
   -webkit-animation: animatezoom 0.6s;
@@ -160,13 +195,7 @@ body,html{
   .cancelbtn {
      width: 100%;
   }
-}
-a.title{
-  transition: 0.5s;
-}
-
-a.title:hover{
-
-  font-size: 35pt;
-  transition: 0.5s;
+  .column {
+    width: 100%;
+  }
 }
