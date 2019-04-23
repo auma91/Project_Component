@@ -107,7 +107,8 @@
       }
     }
     else {
-      for(var i = 0; i < list.length-mod; i = i + 3) {
+      var len = list.length - mod;
+      for(var i = 0; i < len; i = i + 3) {
         if(i!=0) {
           recipes += '' +
           '<div class="row">' +
@@ -179,7 +180,6 @@
           '</div>';
         }
       }
-      var len = list.length - mod;
       if(mod == 2) {
         if(list.length > 3) {
           recipes += '' +
@@ -254,7 +254,7 @@
                 '</div>' +
               '</div>' +
             '</div>'+
-            '<div class="column" style="opacity: 0.0;">' +
+            '<div class="column" style="background-color:#aaa;">' +
               '<div class="card">'+
                 '<iframe style= "width:100%" width="500" height="300" src="' + list[len].videolink + '"> </iframe>' +
                 '<div class="container">' +
@@ -273,6 +273,7 @@
           '</div>';
         }
         else {
+          console.log("here");
           recipes += '' +
           '<div style="padding-top: 10%;"class="row">' +
             '<div class="column" style="opacity: 0.0;">' +
@@ -281,13 +282,13 @@
                 '</div>' +
               '</div>' +
             '</div>'+
-            '<div class="column" style="opacity: 0.0;">' +
+            '<div class="column" style="background-color:#aaa;">' +
               '<div class="card">'+
-                '<iframe style= "width:100%" width="500" height="300" src="' + list[len].videolink + '"> </iframe>' +
+                '<iframe style= "width:100%" width="500" height="300" src="' + list[0].videolink + '"> </iframe>' +
                 '<div class="container">' +
-                  '<h4><b>' + list[len].name + '</b></h4>' +
-                  '<p> Prep time: ' + list[len].prep_time + '</p>' +
-                  '<p> Difficulty: ' + list[len].difficulty + '</p>' +
+                  '<h4><b>' + list[0].name + '</b></h4>' +
+                  '<p> Prep time: ' + list[0].prep_time + '</p>' +
+                  '<p> Difficulty: ' + list[0].difficulty + '</p>' +
                 '</div>' +
               '</div>' +
             '</div>'+
