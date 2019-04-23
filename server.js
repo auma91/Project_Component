@@ -258,14 +258,15 @@ app.get('/recipe', function(req, res) {
     loginname: "Login"
   })*/
   //get choice of recipe
-
+  var recipe_id = req.query.recipe_choice;
+  console.log(recipe_id);
   // var recipe_choice = req.query.recipe_choice; HARD CODE FOR TEST
   //get general info on recipe (name, difficulty, prep time, body, tutorial)
-  var recipe_info = "SELECT * FROM Recipes WHERE recipe_id = 1;";
+  var recipe_info = "SELECT * FROM Recipes WHERE recipe_id = "+recipe_id+";";
   //get ingredients in recipe
-  var recipe_ingredients = "SELECT name FROM Ingredients WHERE ingredient_id = ANY(SELECT unnest(ingredients) FROM Recipes WHERE recipe_id = 1);";
+  var recipe_ingredients = "SELECT name FROM Ingredients WHERE ingredient_id = ANY(SELECT unnest(ingredients) FROM Recipes WHERE recipe_id = "+recipe_id+");";
   //get reviews for recipe (add in username to reviews table) (add in review_ids to recipes table)
-  var recipe_reviews = "SELECT username,body,rating FROM Reviews WHERE review_id = ANY(SELECT unnest(review_ids) FROM Recipes WHERE recipe_id = 1);";
+  var recipe_reviews = "SELECT username,body,rating FROM Reviews WHERE review_id = ANY(SELECT unnest(review_ids) FROM Recipes WHERE recipe_id = "+recipe_id+");";
     db.task('get-recipe', task => {
       return task.batch([
         task.any(recipe_info),
@@ -274,6 +275,7 @@ app.get('/recipe', function(req, res) {
       ]);
     })
     .then(info => {
+      console.log(info[0])
       res.render('pages/recipe', {
         my_title: "Recipe Info",
         //general is everything straight from recipes table
