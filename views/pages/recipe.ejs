@@ -6,10 +6,10 @@
     <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
     <a href="/" class="w3-bar-item w3-button w3-padding-large w3-hover-red">COOKI</a>
     <button class="w3-bar-item w3-padding-large w3-button w3-hover-red" style="align:right;" onclick="document.getElementById('id01').style.display='block'" type="submit" title="LOGIN">LOGIN</button>
-    <div class="search-box">
-      <input class="search-txt" type="text" name="" placeholder="Search recipe..."/>
-      <a href="javascript:void(0)" class="w3-padding-large w3-hide-small w3-right"><i class="fa fa-search"></i></a>
-    </div>
+    <form id ="search-form" class = "search-box" action="../../search" method="POST">
+      <input class="search-txt" type="text" name="search" placeholder="Search recipe..."/>
+      <a onclick="document.getElementById('search-form').submit();console.log('sent');" class="w3-padding-large w3-hover-red w3-hide-small w3-right"><i class="fa fa-search"></i></a>
+    </form>
   </div>
 </div>
 

@@ -159,6 +159,7 @@ a.title:hover{
   transition: 0.3s;
   width: 100%;
   border-radius: 30px;
+  background-color: #5e5e5e;
 }
 
 .card:hover {
