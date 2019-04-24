@@ -34,11 +34,11 @@ var loggedin = false;
   password: This the password for accessing the database.  You'll need to set a password USING THE PSQL TERMINAL THIS IS NOT A PASSWORD FOR POSTGRES USER ACCOUNT IN LINUX!
 **********************/
 const dbConfig = {
-	host: 'ec2-50-17-246-114.compute-1.amazonaws.com',
+	host: 'ec2-54-225-106-93.compute-1.amazonaws.com',
 	port: 5432,
-	database: 'dc9sh8asjaab1d',
-	user: 'nbonaqcrbetdgo',
-	password: 'cad36c22ea52e000d938c0b89cc6adc1b61f9b5b40a6a73c46b0cc49856489ab',
+	database: 'd67nqkf3arp740',
+	user: 'szzrympmyxwqci',
+	password: '2f886bf6b8dfa3426adfb08852a5b5898dd32ceefa4f08e8bd539a6a57ae4aea',
   ssl: true
 };
 
@@ -275,7 +275,7 @@ app.get('/recipe', function(req, res) {
       ]);
     })
     .then(info => {
-      console.log(info[0])
+      console.log(info[0]);
       res.render('pages/recipe', {
         my_title: "Recipe Info",
         //general is everything straight from recipes table
