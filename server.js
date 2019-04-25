@@ -360,7 +360,9 @@ app.get('/recipe', function(req, res) {
           //ingredients is all ingredients associated with this recipe
           ingredients: info[1],
           //reviews is all reviews associated with this recipe
-          reviews: info[2]
+          reviews: info[2],
+          error_msg: "Email is already registered",
+          success_msg: ""
         })
       }
       else {
@@ -373,7 +375,9 @@ app.get('/recipe', function(req, res) {
           //ingredients is all ingredients associated with this recipe
           ingredients: info[1],
           //reviews is all reviews associated with this recipe
-          reviews: info[2]
+          reviews: info[2],
+          error_msg: "Email is already registered",
+          success_msg: ""
         })
       }
 
