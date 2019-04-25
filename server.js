@@ -62,7 +62,7 @@ var port = process.env.PORT || 8080;
 
 // login page
 app.get('/', function(req, res) {
-  console.log(req.session.passport);
+  console.log(req.isAuthenticated());
   db.any("SELECT COUNT(*) FROM Recipes;")
   .then(function(data) {
     var count = data[0].count;
@@ -79,15 +79,27 @@ app.get('/', function(req, res) {
     var rand_sel = "SELECT * FROM Recipes WHERE recipe_id="+id_list[0]+" OR recipe_id="+id_list[1]+" OR recipe_id="+id_list[2]+";";
     db.any(rand_sel)
     .then(function(list) {
-      res.render('pages/home',{
-        success_msg: req.flash('success_msg'),
-        error_msg: req.flash('error_msg'),
-    		local_css:"homepage.css",
-        my_title: "HOME",
-        emailList: "",
-        loginname: "Login",
-        feat_recipes: list
-    	});
+      if(req.isAuthenticated()) {
+        res.render('pages/home',{
+          success_msg: req.flash('success_msg'),
+          error_msg: req.flash('error_msg'),
+      		local_css:"homepage.css",
+          my_title: "HOME",
+          loginname: req.session.passport.user.firstName,
+          feat_recipes: list
+      	});
+      }
+      else {
+        res.render('pages/home',{
+          success_msg: req.flash('success_msg'),
+          error_msg: req.flash('error_msg'),
+      		local_css:"homepage.css",
+          my_title: "HOME",
+          loginname: null,
+          feat_recipes: list
+      	});
+      }
+
     })
     .catch(function(error) {
       res.render('pages/home',{
@@ -95,8 +107,7 @@ app.get('/', function(req, res) {
         error_msg: req.flash('error_msg'),
     		local_css:"homepage.css",
         my_title: "HOME",
-        emailList: "",
-        loginname: "Login",
+        loginname: null,
         feat_recipes: null
     	});
     })
@@ -107,8 +118,7 @@ app.get('/', function(req, res) {
       error_msg: req.flash('error_msg'),
   		local_css:"homepage.css",
       my_title: "HOME",
-      emailList: "",
-      loginname: "Login",
+      loginname: null,
       feat_recipes: null
   	});
   })
@@ -131,7 +141,7 @@ passport.use('local', new LocalStrategy({passReqToCallback : true}, (req, userna
           }
           else if (check){
             req.flash('success_msg','Succesfully logged in')
-            return done(null, [{email: data[0].email, firstName: data[0].name}]);
+            return done(null, {email: data[0].email, firstName: data[0].name});
           }
           else{
             req.flash('error_msg', 'Oops. Incorrect login details.');
@@ -144,7 +154,6 @@ passport.use('local', new LocalStrategy({passReqToCallback : true}, (req, userna
       });
     }
     catch(e){throw (e);}
-    console.log(req.email);
   }
 }))
 
@@ -167,7 +176,6 @@ app.get('/login', function (req, res, next) {
        error_msg: '',
        local_css:"homepage.css",
        my_title: "HOME",
-       emailList: "",
        loginname: "Login"
      });
    }
@@ -189,16 +197,26 @@ app.get('/logout', function(req, res){
  });
 
 app.get('/account', function(req, res, next) {
-  console.log(req.isAuthenticated());
+  if(req.isAuthenticated()) {
+    res.render('pages/account',{
+      success_msg: req.flash('success_msg'),
+      error_msg: '',
+      local_css:"homepage.css",
+      my_title: "HOME",
+      loginname: req.session.passport.user.firstName
+    });
+  }
+  else {
+    res.render('pages/account',{
+      success_msg: req.flash('success_msg'),
+      error_msg: '',
+      local_css:"homepage.css",
+      my_title: "HOME",
+      loginname: null
+    });
+  }
   console.log(req.session.passport.user);
-  res.render('pages/account',{
-    success_msg: req.flash('success_msg'),
-    error_msg: '',
-    local_css:"homepage.css",
-    my_title: "HOME",
-    emailList: "",
-    loginname: "Login"
-  });
+
 });
 
 // registration page
@@ -207,6 +225,7 @@ app.get('/register', function(req, res) {
   res.render('pages/reg', {
     local_css:"reg.css",
     my_title: "Registration",
+    loginname: null,
     success_msg: "",
     error_msg: "",
     name: "",
@@ -217,6 +236,13 @@ app.get('/register', function(req, res) {
 });
 
 app.post('/register', (req, res) => {
+  if(req.isAuthenticated()) {
+    req.flash(
+      'success_msg',
+      'You are already logged in.'
+    )
+    res.redirect('/');
+  }
   const { name, email, password, password2 } = req.body;
   var errors = '';
   console.log(name+email+password);
@@ -238,10 +264,11 @@ app.post('/register', (req, res) => {
       local_css:"reg.css", my_title: "Registration",
       error_msg: errors,
       success_msg: "",
+      loginname: null,
       name,
       email,
       password,
-      password2
+      password2,
     });
   }
   else {
@@ -254,6 +281,7 @@ app.post('/register', (req, res) => {
           my_title: "Registration",
           error_msg: "Email is already registered",
           success_msg: "",
+          loginname: null,
           name,
           email,
           password,
@@ -322,18 +350,33 @@ app.get('/recipe', function(req, res) {
       ]);
     })
     .then(info => {
-      console.log(info[0]);
-      res.render('pages/recipe', {
-        my_title: "Recipe Info",
-        //general is everything straight from recipes table
-        local_css:"homepage.css",
-        loginname: "",
-        general: info[0][0],
-        //ingredients is all ingredients associated with this recipe
-        ingredients: info[1],
-        //reviews is all reviews associated with this recipe
-        reviews: info[2]
-      })
+      if(req.isAuthenticated()) {
+        res.render('pages/recipe', {
+          my_title: "Recipe Info",
+          //general is everything straight from recipes table
+          local_css:"homepage.css",
+          loginname: req.session.passport.user.firstName,
+          general: info[0][0],
+          //ingredients is all ingredients associated with this recipe
+          ingredients: info[1],
+          //reviews is all reviews associated with this recipe
+          reviews: info[2]
+        })
+      }
+      else {
+        res.render('pages/recipe', {
+          my_title: "Recipe Info",
+          //general is everything straight from recipes table
+          local_css:"homepage.css",
+          loginname: null,
+          general: info[0][0],
+          //ingredients is all ingredients associated with this recipe
+          ingredients: info[1],
+          //reviews is all reviews associated with this recipe
+          reviews: info[2]
+        })
+      }
+
     })
 });
 
@@ -354,12 +397,22 @@ app.get('/search', function(req, res) {
       ]);
     })
     .then(info => {
-      console.log(info[0]);
-      res.render('pages/search', {
-        my_title: "Recipes",
-        local_css: "homepage.css",
-        list: info[0]
-      });
+      if(req.isAuthenticated()) {
+        res.render('pages/search', {
+          my_title: "Recipes",
+          local_css: "homepage.css",
+          list: info[0],
+          loginname: req.session.passport.user.firstName
+        });
+      }
+      else {
+        res.render('pages/search', {
+          my_title: "Recipes",
+          local_css: "homepage.css",
+          list: info[0],
+          loginname: null
+        });
+      }
     })
   }
   else {
@@ -381,11 +434,22 @@ app.get('/search', function(req, res) {
     })
     .then(info => {
       console.log(info[0]);
-      res.render('pages/search', {
-        my_title: "Recipes",
-        local_css: "homepage.css",
-        list: info[0]
-      });
+      if(req.isAuthenticated()) {
+        res.render('pages/search', {
+          my_title: "Recipes",
+          local_css: "homepage.css",
+          list: info[0],
+          loginname: req.session.passport.user.firstName
+        });
+      }
+      else {
+        res.render('pages/search', {
+          my_title: "Recipes",
+          local_css: "homepage.css",
+          list: info[0],
+          loginname: null
+        });
+      }
     })
   }
   console.log("This is the query i got: " + search_query);

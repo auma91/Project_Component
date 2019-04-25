@@ -171,6 +171,14 @@ a.title:hover{
   padding-left: 50%;
 }
 
+#rcorners1 {
+  border-radius: 25px;
+  text-align: center;
+  background: #ffcc00;
+  width: 200px;
+  height: 1000px;
+}
+
 /* Add Zoom Animation */
 .animate {
   -webkit-animation: animatezoom 0.6s;

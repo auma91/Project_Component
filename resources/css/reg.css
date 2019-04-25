@@ -25,15 +25,6 @@ label:hover{
   transition: 0.5s;
 
 }
-a{
-  transition: 0.5s;
-}
-
-a:hover{
-
-  font-size: 35pt;
-  transition: 0.5s;
-}
 
 .box{
   width: 400px;

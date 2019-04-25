@@ -5,8 +5,15 @@
   <div class="w3-bar w3-black w3-card">
     <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
     <a href="/" class="w3-bar-item w3-button w3-padding-large w3-hover-red">COOKI</a>
-    <button class="w3-bar-item w3-padding-large w3-button w3-hover-red" style="align:right;" onclick="document.getElementById('id01').style.display='block'" type="submit" title="LOGIN">LOGIN</button>
-    <form id ="search-form" class = "search-box" action="../../search" method="POST">
+    <%
+      var button = '';
+      if(loginname!=null) {
+        button += '<a href="/account" class="w3-bar-item w3-button w3-padding-large w3-hover-red">' + loginname + '</a>';
+      }
+      else {
+        button += '<button class="w3-bar-item w3-padding-large w3-button w3-hover-red" style="align:right;" onclick="document.getElementById(\'id01\').style.display=\'block\'" type="submit" title="LOGIN">LOGIN</button>';
+      }%>
+      <%- button %>
       <input class="search-txt" type="text" name="search" placeholder="Search recipe..."/>
       <a onclick="document.getElementById('search-form').submit();console.log('sent');" class="w3-padding-large w3-hover-red w3-hide-small w3-right"><i class="fa fa-search"></i></a>
     </form>
@@ -77,6 +84,7 @@
         <iframe width="700" height="400" src="<%- general.videolink %>"> </iframe>
         <% } %>
   </form>
+
   <form action="/recipe" method="get">
     <p class="w3-wide"> <i> <br> Reviews: </i> </p>
     <%
@@ -84,11 +92,19 @@
         var reviewList ='';
         reviews.forEach(function(item){
           reviewList += '<p class="w3-justify"> <i> Comment by: ' + item.username + '<br>' + 'Rating: ' + item.rating + '/10 <br>' + '</i> </p>'
-                        + '<p id="rcorners1">' + item.body + '</p>';
+                        + '<p style= "height: 250px;" id="rcorners1">' + item.body + '</p>' + '<br></br>';
         }); %>
         <%- reviewList %>
       <% } %>
   </form>
+  <form class="boxcomment">
+    <input type="button" value="Favorite?">
+  </form>
+  <br>
+  <form class="boxcomment">
+    <input class="form-control" type="text" placeholder="Enter Comment (must be logged in)" name="name" required>
+  </form>
+  <br></br>
 </div>
 <script type="text/javascript">
 // Get the modal
