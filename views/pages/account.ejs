@@ -1,0 +1,72 @@
+<% include ../partials/header %>
+<% include ../partials/messages %>
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-black w3-card">
+    <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+    <a href="/" class="w3-bar-item w3-button w3-padding-large w3-hover-red">COOKI</a>
+    <button class="w3-bar-item w3-padding-large w3-button w3-hover-red" style="align:right;" onclick="document.getElementById('id01').style.display='block'" type="submit" title="LOGIN">LOGIN</button>
+    <form id ="search-form" class = "search-box" action="../../search" method="POST">
+      <input class="search-txt" type="text" name="search" placeholder="Search recipe..."/>
+      <a onclick="document.getElementById('search-form').submit();console.log('sent');" class="w3-padding-large w3-hover-red w3-hide-small w3-right"><i class="fa fa-search"></i></a>
+    </form>
+  </div>
+</div>
+
+<!-- login modal -->
+<div id="id01" class="w3-modal">
+    <div class="w3-modal-content w3-animate-top w3-card-4">
+      <div class="w3-container">
+        <form class = "box" action="../../login" method="POST" class="modal-content animate" >
+          <span onclick="document.getElementById('id01').style.display='none'"
+            class="w3-button w3-display-topright">&times;</span>
+          <h1 style="text-align:center;">Login</h1>
+          <input type="email" placeholder="Enter Email" name="username" required>
+          <input type="password" placeholder="Password" name="password" required>
+          <input type="submit" value="Login">
+          <a href="../../register"><input type="button" value="Register?"></a>
+          <br>
+        </form>
+      </div>
+    </div>
+</div>
+
+<div style="background: #383838; padding-top: 10%;" class="jumbotron jumbotron-fluid">
+  <div class="container" style="margin-top:30px">
+    <div class="row">
+      <div class="column">
+        <h2 style="text-align:center;"><a class="title" href="#" style="color:#efefef; text-decoration: none;" class="display-4"><b>Information</b></a><h2>
+          <div class="card">
+            <div class="card-body"> filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler
+            filler filler filler filler </div>
+          </div>
+      </div>
+      <div class="column">
+        <h2 style="text-align:center;"><a class="title" href="#" style="color:#efefef; text-decoration: none;" class="display-4"><b>Saved Recipes</b></a><h2>
+          <div class="card">
+            <div class="card-body"> filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler
+            filler filler filler filler </div>
+          </div>
+      </div>
+      <div class="column">
+        <h2 style="text-align:center;"><a class="title" href="#" style="color:#efefef; text-decoration: none;" class="display-4"><b>Reviews</b></a><h2>
+          <div class="card">
+            <div class="card-body"> filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler
+            filler filler filler filler </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+// Get the modal
+var modal = document.getElementById('id01');
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+      modal.style.display = "none";
+  }
+}
+</script>
+<% include ../partials/footer %>

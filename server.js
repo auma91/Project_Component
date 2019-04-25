@@ -58,30 +58,55 @@ var port = process.env.PORT || 8080;
 
 // login page
 app.get('/', function(req, res) {
-//get 3 recipes to display on homepage
-var recipe_1 = "SELECT * FROM Recipes WHERE recipe_id = 1;";
-var recipe_2 = "SELECT * FROM Recipes WHERE recipe_id = 2;";
-var recipe_3 = "SELECT * FROM Recipes WHERE recipe_id = 3;";
-db.task('get-recipes',task => {
-  return task.batch([
-    task.any(recipe_1),
-    task.any(recipe_2),
-    task.any(recipe_3)
-  ]);
-})
-.then(info => {
-    console.log(info[0][0]);
-  	res.render('pages/home', {
-    recipe_1: info[0][0],
-    recipe_2: info[1],
-    recipe_3: info[2],
-    success_msg: req.flash('success_msg'),
-    error_msg: req.flash('error_msg'),
-		local_css:"homepage.css",
-    my_title: "Home",
-    emailList: "",
-    loginname: "Login"
+  console.log(req.session.passport);
+  db.any("SELECT COUNT(*) FROM Recipes;")
+  .then(function(data) {
+    var count = data[0].count;
+    var id_list = [0,0,0];
+    for(var i = 0; i < 3; i++) {
+      var indice = Math.round(Math.random()*count);
+      if(indice>0) {
+        id_list[i] = indice;
+      }
+      else {
+        i--;
+      }
+    }
+    var rand_sel = "SELECT * FROM Recipes WHERE recipe_id="+id_list[0]+" OR recipe_id="+id_list[1]+" OR recipe_id="+id_list[2]+";";
+    db.any(rand_sel)
+    .then(function(list) {
+      res.render('pages/home',{
+        success_msg: req.flash('success_msg'),
+        error_msg: req.flash('error_msg'),
+    		local_css:"homepage.css",
+        my_title: "HOME",
+        emailList: "",
+        loginname: "Login",
+        feat_recipes: list
+    	});
     })
+    .catch(function(error) {
+      res.render('pages/home',{
+        success_msg: req.flash('success_msg'),
+        error_msg: req.flash('error_msg'),
+    		local_css:"homepage.css",
+        my_title: "HOME",
+        emailList: "",
+        loginname: "Login",
+        feat_recipes: null
+    	});
+    })
+  })
+  .catch(function(error) {
+    res.render('pages/home',{
+      success_msg: req.flash('success_msg'),
+      error_msg: req.flash('error_msg'),
+  		local_css:"homepage.css",
+      my_title: "HOME",
+      emailList: "",
+      loginname: "Login",
+      feat_recipes: null
+  	});
   })
 });
 
@@ -159,8 +184,19 @@ app.get('/logout', function(req, res){
   res.redirect('/');
  });
 
-
-
+app.get('/account', function(req, res, next) {
+  console.log(req.session.passport);
+  console.log(req._passport.instance.Authenticator);
+  console.log(req.user+" "+req.username+" "+req.email);
+  res.render('pages/account',{
+    success_msg: req.flash('success_msg'),
+    error_msg: '',
+    local_css:"homepage.css",
+    my_title: "HOME",
+    emailList: "",
+    loginname: "Login"
+  });
+});
 
 // registration page
 app.get('/register', function(req, res) {

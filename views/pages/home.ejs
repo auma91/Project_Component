@@ -34,38 +34,47 @@
   <h2 style="color:#efefef; text-align:center;"><b>SEARCH A RECIPE!</b></h2>
 </div>
 
-<div class="row">
-  <div class="column" style="background-color:#aaa;">
-    <form action="/" method="get">
-      <%
-        if(recipe_1) { %>
-    <div class="card">
-      <iframe style= "width:100%" width="500" height="300" src="<%- recipe_1.videolink %>"> </iframe>
-      <div class="container">
-        <h4><b><a href="/recipe?recipe_choice=" + <%= recipe_1.recipe_id %> > <%- recipe_1.name %> </a></b></h4>
-        <p> Prep time: <%- recipe_1.prep_time %> </p>
-        <p> Difficulty: <%- recipe_1.difficulty %> </p>
-      </div>
-    </div>
-    <% } %>
-    </form>
-  </div>
-  <div class="column" style="background-color:#aaa;">
-    <form action="/" method="get">
-      <%
-        if(recipe_2) { %>
-          <div class="card">
-              <iframe style="width:100%" witdh="500" height="300" src="<%= recipe_2.videolink %>"> </iframe>
-              <div class="container">
-                  <h4><b><a href="/recipe?recipe_choice="> <%= recipe_2.name %> </a></b></h4>
-                  <p> Prep time: <%= recipe_2.prep_time %> </p>
-                  <p> Difficulty: <%= recipe_2.difficulty %> </p>
-              </div>
-          </div>
-          <% } %>
-    </form>
-  </div>
-</div>
+<%
+  if(feat_recipes) {
+    var recipes ='';
+    for(var i = 0; i < feat_recipes.length; i = i + 3) {
+      recipes += '' +
+      '<div class="row">' +
+        '<div class="column" style="background-color:#aaa;">' +
+          '<div class="card">'+
+            '<iframe style= "width:100%" width="500" height="300" src="' + feat_recipes[i].videolink + '"> </iframe>' +
+            '<div class="container">' +
+              '<h4><b><a href = "/recipe?recipe_choice=' + feat_recipes[i].id + '">' + feat_recipes[i].name + '</a></b></h4>' +
+              '<p> Prep time: ' + feat_recipes[i].prep_time + '</p>' +
+              '<p> Difficulty: ' + feat_recipes[i].difficulty + '</p>' +
+            '</div>' +
+          '</div>' +
+        '</div>'+
+        '<div class="column" style="background-color:#aaa;">' +
+          '<div class="card">'+
+            '<iframe style= "width:100%" width="500" height="300" src="' + feat_recipes[i+1].videolink + '"> </iframe>' +
+            '<div class="container">' +
+              '<h4><b><a href = "/recipe?recipe_choice=' + feat_recipes[i+1].recipe_id + '">' + feat_recipes[i+1].name + '</a></b></h4>' +
+              '<p> Prep time: ' + feat_recipes[i+1].prep_time + '</p>' +
+              '<p> Difficulty: ' + feat_recipes[i+1].difficulty + '</p>' +
+            '</div>' +
+          '</div>' +
+        '</div>'+
+        '<div class="column" style="background-color:#aaa;">' +
+          '<div class="card">'+
+            '<iframe style= "width:100%" width="500" height="300" src="' + feat_recipes[i+2].videolink + '"> </iframe>' +
+            '<div class="container">' +
+              '<h4><b><a href = "/recipe?recipe_choice=' + feat_recipes[i+2].recipe_id + '">' + feat_recipes[i+2].name + '</a></b></h4>' +
+              '<p> Prep time: ' + feat_recipes[i+2].prep_time + '</p>' +
+              '<p> Difficulty: ' + feat_recipes[i+2].difficulty + '</p>' +
+            '</div>' +
+          '</div>' +
+        '</div>'+
+      '</div>';
+    }%>
+    <%- recipes %>
+<%}%>
+
 <script type="text/javascript">
 // Get the modal
 var modal = document.getElementById('id01');
