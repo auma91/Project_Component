@@ -31,32 +31,39 @@
 
 
 <div  style="background: #383838" class="jumbotron jumbotron-fluid">
-  <h2 style="text-align:center;"><a class="title" href="#" style="color:#efefef; text-decoration: none;" class="display-4"><b>FEATURED RECIPES</b></a><h2>
+  <h2 style="color:#efefef; text-align:center;"><b>SEARCH A RECIPE!</b></h2>
 </div>
 
 <div class="row">
-  <div class="column">
+  <div class="column" style="background-color:#aaa;">
+    <form action="/" method="get">
+      <%
+        if(recipe_1) { %>
     <div class="card">
-      <img src="../../resources/img/arrozglam.jpg" alt="Picture of Aurangzeb" style="width: 100%;">
-      <br>
-      <h3 style="color:#efefef;">Arroz</h3>
+      <iframe style= "width:100%" width="500" height="300" src="<%- recipe_1.videolink %>"> </iframe>
+      <div class="container">
+        <h4><b><a href="/recipe?recipe_choice=" + <%= recipe_1.recipe_id %> > <%- recipe_1.name %> </a></b></h4>
+        <p> Prep time: <%- recipe_1.prep_time %> </p>
+        <p> Difficulty: <%- recipe_1.difficulty %> </p>
+      </div>
     </div>
+    <% } %>
+    </form>
   </div>
-
-  <div class="column">
-    <div class="card">
-      <img src="../resources/img/spegetti.jpg" alt="Picture of Aurangzeb" style="width: 100%;">
-      <br>
-      <h3 style="color:#efefef;">Spaggetti</h3>
-    </div>
-  </div>
-
-  <div class="column">
-    <div class="card">
-      <img src="../resources/img/arrozpollo.jpg" alt="Picture of Aurangzeb" style="width: 100%;">
-      <br>
-      <h3 style="color:#efefef;">Chicken and Rice</h3>
-    </div>
+  <div class="column" style="background-color:#aaa;">
+    <form action="/" method="get">
+      <%
+        if(recipe_2) { %>
+          <div class="card">
+              <iframe style="width:100%" witdh="500" height="300" src="<%= recipe_2.videolink %>"> </iframe>
+              <div class="container">
+                  <h4><b><a href="/recipe?recipe_choice="> <%= recipe_2.name %> </a></b></h4>
+                  <p> Prep time: <%= recipe_2.prep_time %> </p>
+                  <p> Difficulty: <%= recipe_2.difficulty %> </p>
+              </div>
+          </div>
+          <% } %>
+    </form>
   </div>
 </div>
 <script type="text/javascript">

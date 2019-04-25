@@ -57,24 +57,32 @@ var port = process.env.PORT || 8080;
 ************************************/
 
 // login page
-app.get('/', async function(req, res) {
-	res.render('pages/home',{
+app.get('/', function(req, res) {
+//get 3 recipes to display on homepage
+var recipe_1 = "SELECT * FROM Recipes WHERE recipe_id = 1;";
+var recipe_2 = "SELECT * FROM Recipes WHERE recipe_id = 2;";
+var recipe_3 = "SELECT * FROM Recipes WHERE recipe_id = 3;";
+db.task('get-recipes',task => {
+  return task.batch([
+    task.any(recipe_1),
+    task.any(recipe_2),
+    task.any(recipe_3)
+  ]);
+})
+.then(info => {
+    console.log(info[0][0]);
+  	res.render('pages/home', {
+    recipe_1: info[0][0],
+    recipe_2: info[1],
+    recipe_3: info[2],
     success_msg: req.flash('success_msg'),
     error_msg: req.flash('error_msg'),
 		local_css:"homepage.css",
-    my_title: "HOME",
+    my_title: "Home",
     emailList: "",
     loginname: "Login"
-	});
-	var pass = await bcrypt.hash('Hello123', 5);
-	console.log(pass);
-	bcrypt.compare('Hello123', pass, function(err, res) {
-	  if(res) {
-			console.log("PASSWORD MATCHES");
-	  } else {
-			console.log("PASSWORD DOESN'T MATCH");
-	  }
-	});
+    })
+  })
 });
 
 passport.use('local', new LocalStrategy({passReqToCallback : true}, (req, username, password, done) => {
