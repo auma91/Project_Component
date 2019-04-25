@@ -44,22 +44,26 @@
       <div class="column">
         <h2 style="text-align:center;"><a class="title" href="#" style="color:#efefef; text-decoration: none;" class="display-4"><b>Information</b></a><h2>
           <div class="card">
-            <div class="card-body"> filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler
-            filler filler filler filler </div>
+            <div class="card-body">
+              <p>Name: <%- loginname %></p>
+              <p>Email: <%- email %></p>
+            </div>
           </div>
       </div>
       <div class="column">
         <h2 style="text-align:center;"><a class="title" href="#" style="color:#efefef; text-decoration: none;" class="display-4"><b>Saved Recipes</b></a><h2>
           <div class="card">
-            <div class="card-body"> filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler
-            filler filler filler filler </div>
+            <div class="card-body">
+              <p> Recipe: <% recipes[0].favorites %></p>
+            </div>
           </div>
       </div>
       <div class="column">
         <h2 style="text-align:center;"><a class="title" href="#" style="color:#efefef; text-decoration: none;" class="display-4"><b>Reviews</b></a><h2>
           <div class="card">
-            <div class="card-body"> filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler
-            filler filler filler filler </div>
+            <div class="card-body">
+              <p>You have made: <%- revcount.count %> comments!</p>
+            </div>
           </div>
       </div>
     </div>
