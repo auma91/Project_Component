@@ -201,13 +201,8 @@ app.get('/account', function(req, res, next) {
     });
   }
   else {
-    res.render('pages/account',{
-      success_msg: req.flash('success_msg'),
-      error_msg: '',
-      local_css:"homepage.css",
-      my_title: "HOME",
-      loginname: null
-    });
+    req.flash('error_msg', 'Invalid rating, please use integers!');
+    res.redirect("/");
   }
 });
 
@@ -333,7 +328,7 @@ app.get('/recipe', function(req, res) {
   //get ingredients in recipe
   var recipe_ingredients = "SELECT name FROM Ingredients WHERE ingredient_id = ANY(SELECT unnest(ingredients) FROM Recipes WHERE recipe_id = "+recipe_id+");";
   //get reviews for recipe (add in username to reviews table) (add in review_ids to recipes table)
-  var recipe_reviews = "SELECT username,body,rating FROM Reviews WHERE review_id = ANY(SELECT unnest(review_ids) FROM Recipes WHERE recipe_id = "+recipe_id+");";
+  var recipe_reviews = "SELECT username,body,rating FROM Reviews WHERE review_id = "+recipe_id+";";
     db.task('get-recipe', task => {
       return task.batch([
         task.any(recipe_info),
@@ -493,6 +488,46 @@ app.post('/favorite', function(req, res) {
   }
   else {
     req.flash('error_msg', 'You must login to save recipes.');
+    res.redirect('/');
+  }
+})
+
+app.post('/comment', function(req, res) {
+  var recipe = req.query.recipe_choice;
+  var body = req.body.comment;
+  console.log(body);
+  var rating = 0;
+  try {
+    rating = parseInt(req.body.rating)
+  }
+  catch(e){
+    throw (e);
+    req.flash('error_msg', 'Invalid rating, please use integers!');
+    res.redirect("/recipe?recipe_choice="+recipe+"");
+  }
+  console.log(rating);
+  if(req.isAuthenticated()){
+    var name = req.session.passport.user.firstName;
+    var email = req.session.passport.user.email;
+    var insert_statement = "INSERT INTO reviews (review_id, username, body, rating, email) VALUES (" + recipe + ", '" + name + "', '" + body + "', " + rating + ",'" + email + "');";
+    console.log(insert_statement)
+    db.task('get-recipe', task => {
+      return task.batch([
+        task.any(insert_statement)
+      ]);
+    })
+    .then(info => {
+      console.log("It worked");
+      res.redirect("/recipe?recipe_choice="+recipee+"");
+    })
+    .catch(fail => {
+      console.log("unable to comment");
+      req.flash('error_msg', 'Unable to comment.');
+      res.redirect('/');
+    })
+  }
+  else {
+    req.flash('error_msg', 'You must login to comment on recipes.');
     res.redirect('/');
   }
 })

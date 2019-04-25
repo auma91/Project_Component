@@ -11,3 +11,10 @@ VALUES('Aurangzeb Malik', 'amalikrocks@gmail.com', 'Hello123');
 
 SELECT * FROM Recipes WHERE position('chicken' in LOWER(name))>0;
 //allows to search for a particular substring (chicken in this example). This will make the string lower case
+
+CREATE TABLE IF NOT EXISTS reviews(
+	review_id integer,
+	username text NOT NULL,
+	body text NOT NULL,
+	rating integer,
+);
