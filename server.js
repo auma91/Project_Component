@@ -13,11 +13,15 @@ var flash = require('connect-flash'); //will allow for alerts
 const bcrypt = require('bcrypt-nodejs')
 app.use(bodyParser.json());              // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
-const expressSession = require('express-session');
+app.use(session({
+  secret: 'secrettexthere',
+  saveUninitialized: true,
+  resave: true,
+}));
 const LocalStrategy = require('passport-local').Strategy;
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(expressSession({secret: 'mySecretKey'}));
+
 app.use(flash());
 //require('./lib/routes.js')(app); //include routes file
 
@@ -170,7 +174,7 @@ app.get('/login', function (req, res, next) {
  });
 
 app.post('/login', passport.authenticate('local', {
-  successRedirect: '/',
+  successRedirect: '/account',
   failureRedirect: '/login',
   failureFlash: true
   })
@@ -178,16 +182,15 @@ app.post('/login', passport.authenticate('local', {
 
 app.get('/logout', function(req, res){
   console.log(req.isAuthenticated());
-  req.logout();
+  req.logOut();
   console.log(req.isAuthenticated());
   //req.flash(‘success’, “Logged out. See you soon!”);
   res.redirect('/');
  });
 
 app.get('/account', function(req, res, next) {
-  console.log(req.session.passport);
-  console.log(req._passport.instance.Authenticator);
-  console.log(req.user+" "+req.username+" "+req.email);
+  console.log(req.isAuthenticated());
+  console.log(req.session.passport.user);
   res.render('pages/account',{
     success_msg: req.flash('success_msg'),
     error_msg: '',
