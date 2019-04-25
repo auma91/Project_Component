@@ -171,13 +171,7 @@ app.get('/login', function (req, res, next) {
      res.redirect('/account');
    }
    else{
-     res.render('pages/home',{
-       success_msg: req.flash('success_msg'),
-       error_msg: '',
-       local_css:"homepage.css",
-       my_title: "HOME",
-       loginname: "Login"
-     });
+     res.redirect('/')
    }
  });
 
@@ -215,8 +209,6 @@ app.get('/account', function(req, res, next) {
       loginname: null
     });
   }
-  console.log(req.session.passport.user);
-
 });
 
 // registration page
@@ -361,8 +353,9 @@ app.get('/recipe', function(req, res) {
           ingredients: info[1],
           //reviews is all reviews associated with this recipe
           reviews: info[2],
-          error_msg: "Email is already registered",
-          success_msg: ""
+          error_msg: "",
+          success_msg: "",
+          recipe_id: recipe_id
         })
       }
       else {
@@ -376,8 +369,9 @@ app.get('/recipe', function(req, res) {
           ingredients: info[1],
           //reviews is all reviews associated with this recipe
           reviews: info[2],
-          error_msg: "Email is already registered",
-          success_msg: ""
+          error_msg: "",
+          success_msg: "",
+          recipe_id: recipe_id
         })
       }
 
@@ -459,6 +453,49 @@ app.get('/search', function(req, res) {
   console.log("This is the query i got: " + search_query);
   //res.send("success to search: " + search);
 });
+
+app.post('/favorite', function(req, res) {
+  var recipe = req.query.recipe_choice;
+  console.log(recipe);
+  if(req.isAuthenticated()){
+    var email = req.session.passport.user.email;
+    var insert_statement = "SELECT * FROM users WHERE email = '" + email + "';";
+    db.task('get-recipe', task => {
+      return task.batch([
+        task.any(insert_statement)
+      ]);
+    })
+    .then(info => {
+      console.log(info);
+      var list = 'ARRAY[';
+      if(info[0][0].favorites) {
+        for(var i = 0; i < info[0][0].favorites.length; i++)
+        {
+          list += info[0][0].favorites[i]+', ';
+        }
+      }
+      list += parseInt(recipe)+']';
+      console.log(list);
+      var update = "UPDATE users SET favorites = " + list + " WHERE email = '" + email + "';";
+      db.task('get-recipe', task => {
+        return task.batch([
+          task.any(update)
+        ]);
+      })
+      .then(update => {
+        console.log("It worked");
+        res.redirect("/recipe?recipe_choice="+recipe+"");
+      })
+      .catch(fail => {
+        console.log("It didn't work.")
+      })
+    })
+  }
+  else {
+    req.flash('error_msg', 'You must login to save recipes.');
+    res.redirect('/');
+  }
+})
 
 app.listen(port, function() {
     console.log('Our app is running on http://localhost:' + port);

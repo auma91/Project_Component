@@ -98,12 +98,22 @@
         <%- reviewList %>
       <% } %>
   </form>
-  <form action="/favorite" class="boxcomment" method="post">
+
+  <br>
+
+  <p class="w3-wide"> <i> <br> Comment? </i> </p>
+  <form action="/favorite?recipe_choice=<%- recipe_id %>" class="boxcomment" method="post">
     <input type="submit" name="favorite" value="Favorite?">
   </form>
-  <br>
   <form action="/comment" class="boxcomment" method="post">
     <input class="form-control" type="text" placeholder="Enter Comment (must be logged in)" name="comment" required>
+    <input style = "width: 100px;" class="form-control" type="text" placeholder="Rating /10" name="rating" required>
+    <input type="submit" name="comment" value="Comment!">
+  </form>
+  <br><br><br><br><br><br><br><br><br><br><br>
+  <p class="w3-wide"> <i> <br> Favorite? </i> </p>
+  <form action="/favorite?recipe_choice=<%- recipe_id %>" class="boxcomment" method="post">
+    <input type="submit" name="favorite" value="Favorite?">
   </form>
   <br></br>
 </div>
