@@ -54,7 +54,20 @@
         <h2 style="text-align:center;"><a class="title" href="#" style="color:#efefef; text-decoration: none;" class="display-4"><b>Saved Recipes</b></a><h2>
           <div class="card">
             <div class="card-body">
-              <p> Recipe: <% recipes[0].favorites %></p>
+              <%
+                var saved = '';
+                if(recipes) {
+                  console.log(recipes.length)
+                  for(var i = 0; i < recipes.length; i++){
+                    if(recipes[i].favorites) {
+                      console.log(recipes[i].favorites);
+                      for(var j = 0; j < recipes[i].favorites.length; j++){
+                        saved +=  '<p><a href="recipe?recipe_choice=' + recipes[i].favorites[j] + '"> Saved Recipe </a></p>'
+                      }
+                    }
+                  } %>
+                  <%- saved %>
+                <%}%>
             </div>
           </div>
       </div>
@@ -62,7 +75,7 @@
         <h2 style="text-align:center;"><a class="title" href="#" style="color:#efefef; text-decoration: none;" class="display-4"><b>Reviews</b></a><h2>
           <div class="card">
             <div class="card-body">
-              <p>You have made: <%- revcount.count %> comments!</p>
+              <p>You have made: <%- revcount? revcount:0 %> comments!</p>
             </div>
           </div>
       </div>

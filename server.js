@@ -206,6 +206,7 @@ app.get('/account', function(req, res, next) {
   if(req.isAuthenticated()) {
 
     var sel_num_reviews = "SELECT COUNT(*) FROM reviews WHERE email = '" + req.session.passport.user.email + "';";
+    console.log(sel_num_reviews);
     var saved_recipes = "SELECT * FROM users WHERE email = '" + req.session.passport.user.email + "';";
     db.task('get-recipe', task => {
       return task.batch([
@@ -214,6 +215,7 @@ app.get('/account', function(req, res, next) {
       ]);
     })
     .then (data => {
+      console.log(data);
       res.render('pages/account',{
         success_msg: req.flash('success_msg'),
         error_msg: '',
@@ -221,7 +223,7 @@ app.get('/account', function(req, res, next) {
         my_title: "HOME",
         loginname: req.session.passport.user.firstName,
         email: req.session.passport.user.email,
-        revcount: data[0],
+        revcount: data[0][0].count,
         recipes: data[1]
       });
     })
