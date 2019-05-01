@@ -33,9 +33,9 @@ var loggedin = false;
   Database Connection information
   host: This defines the ip address of the server hosting our database.  We'll be using localhost and run our database on our local machine (i.e. can't be access via the Internet)
   port: This defines what port we can expect to communicate to our database.  We'll use 5432 to talk with PostgreSQL
-  database: This is the name of our specific database.  From our previous lab, we created the football_db database, which holds our football data tables
-  user: This should be left as postgres, the default user account created when PostgreSQL was installed
-  password: This the password for accessing the database.  You'll need to set a password USING THE PSQL TERMINAL THIS IS NOT A PASSWORD FOR POSTGRES USER ACCOUNT IN LINUX!
+  database: Name given by postgres
+  user: This was givnen in the config stuff for heroku's postgres
+  password: This was given in the config stuff for heroku's postgres
 **********************/
 const dbConfig = {
 	host: 'ec2-54-225-106-93.compute-1.amazonaws.com',
@@ -60,17 +60,29 @@ var port = process.env.PORT || 8080;
  *
 ************************************/
 
-// login page
+//home
 app.get('/', function(req, res) {
   console.log(req.isAuthenticated());
-  db.any("SELECT COUNT(*) FROM Recipes;")
+  var id_list = [0,0,0];
+  db.any("SELECT COUNT(*) as count FROM Recipes;")
   .then(function(data) {
+    console.log(data);
     var count = data[0].count;
-    var id_list = [0,0,0];
     for(var i = 0; i < 3; i++) {
       var indice = Math.round(Math.random()*count);
       if(indice>0) {
-        id_list[i] = indice;
+        if(i==1 & id_list[0]!=indice) {
+          id_list[i]=indice;
+        }
+        else if(i==2 & id_list[0]!=indice & id_list[1]!=indice) {
+          id_list[i]=indice;
+        }
+        else if(i==0) {
+          id_list[i]=indice;
+        }
+        else {
+          i--;
+        }
       }
       else {
         i--;
